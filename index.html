@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stefania Carta — UX Designer & Researcher</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #B8860B;
+    --gold-light: #D4A843;
+    --gold-pale: #F5EDD0;
+    --green: #3D6B38;
+    --green-pale: #EBF2E9;
+    --ink: #1A1208;
+    --warm-dark: #2C2416;
+    --mid: #5C4E38;
+    --muted: #9C8E7A;
+    --cream: #FAF6EE;
+    --warm: #F5F0E8;
+    --white: #FFFFFF;
+    --rule: #E8DCC8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(250,246,238,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 400; letter-spacing: 0.08em;
+    color: var(--mid); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 4rem 6rem;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: var(--cream);
+  }
+
+  .hero-deco {
+    position: absolute;
+    top: 0; right: 0;
+    width: 55%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .hero-deco-inner {
+    position: absolute; inset: 0;
+    background: var(--warm);
+    clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+
+  .hero-deco-line {
+    position: absolute;
+    top: 50%; left: -1px;
+    width: 2px; height: 45%;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    transform: translateY(-50%);
+  }
+
+  .hero-monogram {
+    position: absolute;
+    top: 50%; right: 10%;
+    transform: translateY(-50%);
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1.2s 1s ease forwards;
+  }
+
+  .monogram-circle {
+    width: 180px; height: 180px;
+    border: 1px solid rgba(184,134,11,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    position: relative;
+  }
+  .monogram-circle::before {
+    content: '';
+    position: absolute; inset: 10px;
+    border: 1px solid rgba(184,134,11,0.1);
+    border-radius: 50%;
+  }
+  .monogram-letters {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; font-weight: 300;
+    color: var(--gold); letter-spacing: -0.04em;
+  }
+  .monogram-title {
+    font-size: 0.62rem; letter-spacing: 0.25em;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 640px; }
+
+  .hero-eyebrow {
+    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    opacity: 0; animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+  .hero-eyebrow::before { content: ''; width: 2rem; height: 1px; background: var(--gold); display: block; }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 7vw, 6.5rem);
+    font-weight: 300; line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.8s 0.35s ease forwards;
+  }
+  .hero-name .line2 { font-style: italic; color: var(--gold); padding-left: 2rem; display: block; }
+
+  .hero-tagline {
+    font-size: 1.05rem; line-height: 1.75; font-weight: 300;
+    color: var(--mid); max-width: 480px; margin-bottom: 3rem;
+    opacity: 0; animation: fadeUp 0.8s 0.5s ease forwards;
+  }
+
+  .hero-cta {
+    display: flex; gap: 1.25rem; align-items: center;
+    opacity: 0; animation: fadeUp 0.8s 0.65s ease forwards;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 0.85rem 2rem;
+    background: var(--ink); color: var(--cream);
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none; font-family: 'DM Sans', sans-serif;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold); }
+
+  .btn-secondary {
+    font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--gold); }
+  .btn-secondary::after { content: '→'; }
+
+  /* ── SECTIONS ── */
+  section { padding: 7rem 0; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 4rem; }
+
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300; line-height: 1.1;
+    color: var(--ink); margin-bottom: 1.25rem;
+  }
+
+  .section-body {
+    font-size: 0.97rem; line-height: 1.85;
+    color: var(--mid); font-weight: 300; max-width: 600px;
+  }
+
+  /* ── ABOUT ── */
+  .about-layout {
+    display: grid; grid-template-columns: 1fr 1.6fr;
+    gap: 6rem; align-items: start; margin-top: 4rem;
+  }
+
+  .about-aside { position: sticky; top: 7rem; }
+
+  .about-detail {
+    display: flex; flex-direction: column; gap: 0.4rem;
+    padding: 1.5rem 0; border-bottom: 1px solid var(--rule);
+  }
+  .about-detail:first-child { border-top: 1px solid var(--rule); }
+  .about-detail-label {
+    font-size: 0.62rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .about-detail-val {
+    font-size: 0.9rem; color: var(--ink); font-weight: 300;
+  }
+
+  .about-body p {
+    font-size: 1rem; line-height: 1.9;
+    color: var(--mid); font-weight: 300; margin-bottom: 1.5rem;
+  }
+  .about-body p:last-child { margin-bottom: 0; }
+
+  .about-body strong { font-weight: 500; color: var(--ink); }
+
+  /* ── WORK ── */
+  .work-bg { background: var(--warm); }
+
+  .projects-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 2rem; margin-top: 4rem;
+  }
+
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    text-decoration: none;
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(26,18,8,0.1);
+  }
+
+  .project-card-top {
+    height: 240px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+
+  .project-card.paddington .project-card-top { background: #1A1208; }
+  .project-card.sustainable .project-card-top { background: #1C2B1A; }
+
+  .project-card-pattern {
+    position: absolute; inset: 0; opacity: 0.06;
+    background-image: repeating-linear-gradient(
+      45deg, rgba(255,255,255,0.8) 0px, rgba(255,255,255,0.8) 1px,
+      transparent 1px, transparent 24px
+    );
+  }
+
+  .project-card-logo {
+    position: relative; z-index: 2; text-align: center;
+  }
+  .project-logo-circle {
+    width: 64px; height: 64px;
+    border: 1px solid rgba(184,134,11,0.4); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.4rem; color: var(--gold);
+  }
+  .sustainable .project-logo-circle {
+    border-color: rgba(92,143,85,0.4);
+    color: #5C8F55;
+  }
+  .project-logo-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(255,255,255,0.8);
+  }
+
+  .project-card-body { padding: 2rem 2rem 2.5rem; flex: 1; display: flex; flex-direction: column; }
+
+  .project-type {
+    font-size: 0.62rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+  .sustainable .project-type { color: var(--green); }
+
+  .project-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 400;
+    color: var(--ink); margin-bottom: 0.75rem; line-height: 1.2;
+  }
+
+  .project-desc {
+    font-size: 0.875rem; line-height: 1.7;
+    color: var(--mid); font-weight: 300; flex: 1; margin-bottom: 1.5rem;
+  }
+
+  .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; }
+  .project-tag {
+    font-size: 0.65rem; letter-spacing: 0.08em;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--rule); color: var(--muted);
+  }
+
+  .project-link {
+    font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink); display: flex; align-items: center; gap: 0.5rem;
+    font-weight: 500; margin-top: auto;
+    transition: color 0.2s; text-decoration: none;
+  }
+  .project-link::after { content: '→'; transition: transform 0.2s; }
+  .project-card:hover .project-link { color: var(--gold); }
+  .project-card:hover .project-link::after { transform: translateX(4px); }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); margin-top: 4rem;
+  }
+
+  .skill-cell {
+    background: var(--white); padding: 2.25rem 2rem;
+    transition: background 0.2s;
+  }
+  .skill-cell:hover { background: var(--gold-pale); }
+
+  .skill-cell h3 {
+    font-size: 0.68rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+  .skill-list li {
+    font-size: 0.85rem; color: var(--mid); font-weight: 300;
+    padding-left: 0.75rem; position: relative;
+  }
+  .skill-list li::before {
+    content: '–'; position: absolute; left: 0;
+    color: var(--gold); font-weight: 300;
+  }
+
+  /* ── CONTACT ── */
+  .contact-bg { background: var(--ink); }
+
+  .contact-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 6rem; align-items: center;
+  }
+
+  .contact-bg .section-label { color: var(--gold-light); }
+  .contact-bg .section-label::after { background: rgba(255,255,255,0.1); }
+  .contact-bg .section-title { color: rgba(255,255,255,0.92); }
+  .contact-bg .section-body { color: rgba(255,255,255,0.5); max-width: 100%; }
+
+  .contact-links { display: flex; flex-direction: column; gap: 1px; margin-top: 4rem; }
+
+  .contact-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    text-decoration: none;
+    transition: padding-left 0.3s;
+  }
+  .contact-link:first-child { border-top: 1px solid rgba(255,255,255,0.08); }
+  .contact-link:hover { padding-left: 0.5rem; }
+
+  .contact-link-label {
+    font-size: 0.65rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(255,255,255,0.3);
+    display: block; margin-bottom: 0.25rem;
+  }
+  .contact-link-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; color: rgba(255,255,255,0.85);
+  }
+  .contact-link-arrow { color: var(--gold); font-size: 1.2rem; opacity: 0; transition: opacity 0.2s; }
+  .contact-link:hover .contact-link-arrow { opacity: 1; }
+
+  .contact-aside {
+    display: flex; flex-direction: column; gap: 2rem; margin-top: 4rem;
+  }
+
+  .contact-aside-item { padding: 2rem; border: 1px solid rgba(255,255,255,0.08); }
+  .contact-aside-item h4 {
+    font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.6rem;
+  }
+  .contact-aside-item p {
+    font-size: 0.875rem; line-height: 1.65;
+    color: rgba(255,255,255,0.45); font-weight: 300;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--warm-dark);
+    padding: 4rem; text-align: center;
+  }
+  .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem;
+  }
+  .footer-rule { width: 3rem; height: 1px; background: var(--gold); margin: 1.5rem auto; }
+  footer p { font-size: 0.75rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+  .reveal { opacity:0; transform:translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.12s; }
+  .reveal-delay-2 { transition-delay: 0.24s; }
+  .reveal-delay-3 { transition-delay: 0.36s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    .hero { padding: 7rem 2rem 4rem; }
+    .hero-deco { display: none; }
+    .container { padding: 0 2rem; }
+    .about-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-aside { position: static; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .contact-layout { grid-template-columns: 1fr; gap: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-name">Stefania Carta</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-deco">
+    <div class="hero-deco-inner"></div>
+    <div class="hero-deco-line"></div>
+    <div class="hero-monogram">
+      <div class="monogram-circle">
+        <span class="monogram-letters">SC</span>
+      </div>
+      <p class="monogram-title">Portfolio · 2026</p>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">UX Designer &amp; Researcher · Dublin</div>
+    <h1 class="hero-name">
+      Stefania<span class="line2">Carta</span>
+    </h1>
+    <p class="hero-tagline">I design experiences grounded in evidence — combining user research, interaction design, and 10 years of digital operations to create products that are clear, inclusive, and trustworthy.</p>
+    <div class="hero-cta">
+      <a href="#work" class="btn-primary">View my work</a>
+      <a href="#contact" class="btn-secondary">Get in touch</a>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="section-label reveal">About</div>
+    <h2 class="section-title reveal reveal-delay-1">Designing with<br>purpose and rigour</h2>
+
+    <div class="about-layout">
+      <div class="about-aside reveal">
+        <div class="about-detail">
+          <span class="about-detail-label">Based in</span>
+          <span class="about-detail-val">Dublin, Ireland</span>
+        </div>
+        <div class="about-detail">
+          <span class="about-detail-label">Education</span>
+          <span class="about-detail-val">Professional Diploma in UX Design, UCD / UX Design Institute</span>
+        </div>
+        <div class="about-detail">
+          <span class="about-detail-label">Background</span>
+          <span class="about-detail-val">10 years in digital operations, content, trust & safety</span>
+        </div>
+        <div class="about-detail">
+          <span class="about-detail-label">Languages</span>
+          <span class="about-detail-val">Italian · Sardinian · English · Spanish · French</span>
+        </div>
+        <div class="about-detail">
+          <span class="about-detail-label">Currently</span>
+          <span class="about-detail-val">Open to UX, research, and trust & safety roles</span>
+        </div>
+      </div>
+
+      <div class="about-body reveal reveal-delay-2">
+        <p>I came to UX design through a decade of working at the intersection of people, content, and digital platforms — at companies like <strong>Salesforce</strong>, <strong>Wix</strong>, <strong>Allianz</strong>, and <strong>Accenture at Google</strong>. That background gave me something formal design education alone rarely does: a deep understanding of how real users behave when things go wrong, and why clear, trustworthy design is not a luxury but a necessity.</p>
+        <p>My UX work is research-led and process-driven. I believe the most impactful design decisions are often the simplest ones — surfacing a price, labelling a filter, showing a map — and that those decisions are only possible when you have genuinely listened to users first.</p>
+        <p>Outside of design, I am a classically trained pianist with a passion for Ludovico Einaudi, and I have had photographs published on Google Maps with over 30 million views.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section class="work-bg" id="work">
+  <div class="container">
+    <div class="section-label reveal">Selected Work</div>
+    <h2 class="section-title reveal reveal-delay-1">Case studies</h2>
+    <p class="section-body reveal reveal-delay-2">Two projects — one showing the complete design process from research to prototype, one showing in-depth UX research and data synthesis across a dual-audience product brief.</p>
+
+    <div class="projects-grid">
+
+      <a href="paddington.html" class="project-card paddington reveal">
+        <div class="project-card-top">
+          <div class="project-card-pattern"></div>
+          <div class="project-card-logo">
+            <div class="project-logo-circle">✦</div>
+            <div class="project-logo-name">Paddington</div>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <div class="project-type">UX Design · End-to-End</div>
+          <h3 class="project-title">Hotel Booking Experience</h3>
+          <p class="project-desc">A complete UX design project for a luxury hotel booking platform — from usability testing on live competitor websites through affinity mapping, journey mapping, hand-drawn wireframes, and a high-fidelity interactive Figma prototype with 15+ documented screen states.</p>
+          <div class="project-tags">
+            <span class="project-tag">Usability Testing</span>
+            <span class="project-tag">Journey Mapping</span>
+            <span class="project-tag">Wireframing</span>
+            <span class="project-tag">Figma Prototype</span>
+            <span class="project-tag">Affinity Diagram</span>
+          </div>
+          <span class="project-link">View case study</span>
+        </div>
+      </a>
+
+      <a href="sustainable-eating.html" class="project-card sustainable reveal reveal-delay-1">
+        <div class="project-card-top">
+          <div class="project-card-pattern" style="background-image: repeating-linear-gradient(-45deg, rgba(255,255,255,0.8) 0px, rgba(255,255,255,0.8) 1px, transparent 1px, transparent 24px);"></div>
+          <div class="project-card-logo">
+            <div class="project-logo-circle" style="border-color:rgba(92,143,85,0.4); color:#5C8F55;">🌱</div>
+            <div class="project-logo-name">Sustainable Eating</div>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <div class="project-type" style="color:var(--green)">UX Research · Dual-Audience</div>
+          <h3 class="project-title">Food Waste Reduction App</h3>
+          <p class="project-desc">A rigorous multi-method research study exploring the viability of a food rescue app in Dublin — combining quantitative surveys (112 participants across two stakeholder groups), a focus group, literature review, and market analysis to define product opportunities.</p>
+          <div class="project-tags">
+            <span class="project-tag">Survey Design</span>
+            <span class="project-tag">Focus Group</span>
+            <span class="project-tag">Literature Review</span>
+            <span class="project-tag">Data Synthesis</span>
+            <span class="project-tag">Stakeholder Mapping</span>
+          </div>
+          <span class="project-link" style="color:var(--ink)">View case study</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label reveal">Skills</div>
+    <h2 class="section-title reveal reveal-delay-1">What I bring</h2>
+
+    <div class="skills-grid">
+      <div class="skill-cell reveal">
+        <h3>UX Design</h3>
+        <ul class="skill-list">
+          <li>User research & usability testing</li>
+          <li>Affinity mapping & synthesis</li>
+          <li>Customer journey mapping</li>
+          <li>Wireframing & prototyping</li>
+          <li>Interaction design</li>
+          <li>Figma · Miro</li>
+        </ul>
+      </div>
+      <div class="skill-cell reveal reveal-delay-1">
+        <h3>Research & Content</h3>
+        <ul class="skill-list">
+          <li>Qualitative & quantitative research</li>
+          <li>UX writing & plain language</li>
+          <li>Content moderation</li>
+          <li>Trust & safety policy</li>
+          <li>Localisation & translation</li>
+          <li>Accessibility (WCAG / EU standards)</li>
+        </ul>
+      </div>
+      <div class="skill-cell reveal reveal-delay-2">
+        <h3>Technical</h3>
+        <ul class="skill-list">
+          <li>HTML & CSS</li>
+          <li>GitHub & Netlify</li>
+          <li>WordPress · Drupal · Wix CMS</li>
+          <li>Salesforce · Jira</li>
+          <li>SQL · Python basics</li>
+          <li>SEO & analytics</li>
+        </ul>
+      </div>
+      <div class="skill-cell reveal">
+        <h3>Languages</h3>
+        <ul class="skill-list">
+          <li>Italian — native</li>
+          <li>Sardinian — native</li>
+          <li>English — fluent</li>
+          <li>Spanish — intermediate</li>
+          <li>French — intermediate</li>
+          <li>Portuguese — basic</li>
+        </ul>
+      </div>
+      <div class="skill-cell reveal reveal-delay-1">
+        <h3>Certifications</h3>
+        <ul class="skill-list">
+          <li>Professional Diploma in UX Design — UCD</li>
+          <li>IT Specialist HTML & CSS — Pearson</li>
+          <li>Certified in Cybersecurity (CC) — ISC² <em style="font-size:0.75em;color:var(--muted)">(in progress)</em></li>
+          <li>Adobe Certified Associate — Photoshop <em style="font-size:0.75em;color:var(--muted)">(in progress)</em></li>
+          <li>Salesforce Admin & Developer</li>
+          <li>Certified Digital Marketing Professional</li>
+        </ul>
+      </div>
+      <div class="skill-cell reveal reveal-delay-2">
+        <h3>Currently exploring</h3>
+        <ul class="skill-list">
+          <li>Cybersecurity fundamentals</li>
+          <li>Advanced Photoshop & visual design</li>
+          <li>Mobile UX patterns</li>
+          <li>Design systems</li>
+          <li>Product analytics</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-bg" id="contact">
+  <div class="container">
+    <div class="contact-layout">
+      <div>
+        <div class="section-label reveal">Contact</div>
+        <h2 class="section-title reveal reveal-delay-1">Let's work<br>together</h2>
+        <p class="section-body reveal reveal-delay-2">I am currently open to UX design, UX research, and trust & safety roles in Dublin and remotely across Ireland and Europe. I would love to hear from you.</p>
+
+        <div class="contact-links reveal">
+          <a href="mailto:sfcarta@gmail.com" class="contact-link">
+            <div>
+              <span class="contact-link-label">Email</span>
+              <span class="contact-link-val">sfcarta@gmail.com</span>
+            </div>
+            <span class="contact-link-arrow">→</span>
+          </a>
+          <a href="https://www.linkedin.com/in/stefaniacarta" target="_blank" class="contact-link">
+            <div>
+              <span class="contact-link-label">LinkedIn</span>
+              <span class="contact-link-val">linkedin.com/in/stefaniacarta</span>
+            </div>
+            <span class="contact-link-arrow">→</span>
+          </a>
+          <a href="https://github.com/paperiSte" target="_blank" class="contact-link">
+            <div>
+              <span class="contact-link-label">GitHub</span>
+              <span class="contact-link-val">github.com/paperiSte</span>
+            </div>
+            <span class="contact-link-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <div>
+        <div class="contact-aside reveal reveal-delay-1">
+          <div class="contact-aside-item">
+            <h4>Availability</h4>
+            <p>Open to full-time and contract roles. Based in Dublin, available for hybrid and remote positions across Ireland and the EU.</p>
+          </div>
+          <div class="contact-aside-item">
+            <h4>Right to work</h4>
+            <p>EU citizen — permitted to work full-time in Ireland and across the European Union. No visa sponsorship required.</p>
+          </div>
+          <div class="contact-aside-item">
+            <h4>Ideal roles</h4>
+            <p>UX Designer · UX Researcher · Content Designer · Trust & Safety Policy · Content Operations · Accessibility Specialist</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-name">Stefania Carta</p>
+  <div class="footer-rule"></div>
+  <p>UX Designer · Trust & Safety · Dublin</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
