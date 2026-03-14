@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paddington Hotels — UX Case Study · Stefania Carta</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #B8860B;
+    --gold-light: #D4A843;
+    --gold-pale: #F5EDD0;
+    --ink: #1A1208;
+    --warm-dark: #2C2416;
+    --mid: #5C4E38;
+    --muted: #9C8E7A;
+    --cream: #FAF6EE;
+    --white: #FFFFFF;
+    --rule: #E8DCC8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(250, 246, 238, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .nav-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--mid);
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 4rem 6rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s ease forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--mid);
+    max-width: 420px;
+    font-weight: 300;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s ease forwards;
+    margin-bottom: 3rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    gap: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s ease forwards;
+  }
+
+  .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+  .meta-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .meta-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+
+  .hero-right {
+    position: relative;
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #2C2416 0%, #1A1208 60%, #3D2E10 100%);
+  }
+
+  .hero-pattern {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    gap: 1px;
+    opacity: 0.06;
+  }
+  .hero-pattern span {
+    border: 1px solid var(--gold-light);
+    animation: gridPulse 4s infinite alternate;
+  }
+  .hero-pattern span:nth-child(3n) { animation-delay: 0.5s; }
+  .hero-pattern span:nth-child(5n) { animation-delay: 1s; }
+
+  .hero-floating {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .hotel-logo-display {
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1.2s 1s ease forwards;
+  }
+
+  .hotel-logo-display .crest {
+    width: 80px;
+    height: 80px;
+    border: 1px solid rgba(184, 134, 11, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    position: relative;
+  }
+  .hotel-logo-display .crest::before {
+    content: '✦';
+    font-size: 1.8rem;
+    color: var(--gold);
+  }
+  .hotel-logo-display h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 0.5rem;
+  }
+  .hotel-logo-display p {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeIn 1s 1.5s ease forwards;
+  }
+  .scroll-indicator::before {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 3rem;
+    background: linear-gradient(to bottom, transparent, var(--gold));
+    animation: scrollLine 2s infinite;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 8rem 0; }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .section-body {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--mid);
+    font-weight: 300;
+    max-width: 680px;
+  }
+
+  /* ── OVERVIEW CARDS ── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--rule);
+    margin-top: 4rem;
+    border: 1px solid var(--rule);
+  }
+
+  .overview-card {
+    background: var(--white);
+    padding: 2.5rem;
+  }
+
+  .overview-card-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--gold-pale);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .overview-card h3 {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .overview-card p {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  /* ── RESEARCH SECTION ── */
+  .research-bg { background: var(--ink); }
+
+  .research-bg .section-label { color: var(--gold-light); }
+  .research-bg .section-label::after { background: rgba(255,255,255,0.1); }
+  .research-bg .section-title { color: rgba(255,255,255,0.92); }
+  .research-bg .section-body { color: rgba(255,255,255,0.6); }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+
+  .pain-card {
+    border: 1px solid rgba(184,134,11,0.25);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .pain-card:hover { border-color: rgba(184,134,11,0.6); }
+
+  .pain-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--gold);
+    transition: height 0.4s ease;
+  }
+  .pain-card:hover::before { height: 100%; }
+
+  .pain-type {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+  .pain-type.pain { background: rgba(180,50,50,0.15); color: #E88; }
+  .pain-type.positive { background: rgba(50,150,80,0.15); color: #8C8; }
+
+  .pain-card h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 0.75rem;
+  }
+
+  .pain-card p {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.5);
+    font-weight: 300;
+  }
+
+  /* ── QUOTE ── */
+  .quote-section {
+    background: var(--gold-pale);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 6rem 0;
+  }
+
+  .quote-inner {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 0 4rem;
+  }
+
+  .quote-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    line-height: 0.5;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  blockquote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--warm-dark);
+    margin-bottom: 1.5rem;
+  }
+
+  .quote-attr {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── PROCESS STEPS ── */
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin-top: 4rem;
+    border: 1px solid var(--rule);
+  }
+
+  .step {
+    padding: 2.5rem 1.75rem;
+    border-right: 1px solid var(--rule);
+    position: relative;
+    transition: background 0.3s;
+  }
+  .step:last-child { border-right: none; }
+  .step:hover { background: var(--white); }
+
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--gold-pale);
+    line-height: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .step h3 {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .step p {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  /* ── SCREENS SHOWCASE ── */
+  .screens-section { background: #F0EAE0; }
+
+  .screens-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .screen-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .screen-card.featured { grid-row: 1 / 3; }
+
+  .screen-preview {
+    background: var(--ink);
+    aspect-ratio: 16/10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .screen-card.featured .screen-preview { aspect-ratio: 3/4; }
+
+  /* Mini UI mockups */
+  .mock-ui {
+    width: 85%;
+    height: 85%;
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    background: #F8F4EE;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+  }
+
+  .mock-nav {
+    height: 28px;
+    background: white;
+    border-bottom: 1px solid #EEE;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    gap: 6px;
+  }
+  .mock-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .mock-dot:nth-child(1) { background: #FF5F57; }
+  .mock-dot:nth-child(2) { background: #FFBD2E; }
+  .mock-dot:nth-child(3) { background: #28C940; }
+  .mock-url { flex: 1; height: 14px; background: #F0F0F0; border-radius: 7px; margin: 0 8px; }
+
+  .mock-body { padding: 8px 10px; }
+
+  .mock-hero-bar {
+    height: 10px;
+    background: linear-gradient(90deg, var(--gold) 60%, transparent);
+    border-radius: 2px;
+    margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .mock-hero-bar.short { width: 60%; }
+  .mock-hero-bar.shorter { width: 40%; }
+
+  .mock-search {
+    display: flex;
+    gap: 4px;
+    margin: 8px 0;
+    background: white;
+    padding: 6px;
+    border-radius: 3px;
+    border: 1px solid #EEE;
+  }
+  .mock-field { flex: 1; height: 8px; background: #F5F5F5; border-radius: 2px; }
+  .mock-btn { width: 24px; height: 16px; background: var(--gold); border-radius: 2px; opacity: 0.8; }
+
+  .mock-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4px; margin-top: 6px; }
+  .mock-card-mini { background: white; border-radius: 2px; overflow: hidden; border: 1px solid #EEE; }
+  .mock-card-img { height: 24px; background: linear-gradient(135deg, #C8B89A, #A09070); }
+  .mock-card-text { padding: 3px 4px; }
+  .mock-card-line { height: 4px; background: #F0F0F0; border-radius: 1px; margin-bottom: 2px; }
+  .mock-card-line.gold { background: var(--gold); width: 60%; opacity: 0.5; }
+
+  .mock-results { display: flex; flex-direction: column; gap: 4px; }
+  .mock-result { background: white; padding: 5px; border-radius: 2px; border: 1px solid #EEE; display: flex; gap: 4px; }
+  .mock-result-img { width: 30px; background: linear-gradient(135deg, #C8B89A, #A09070); border-radius: 1px; flex-shrink: 0; }
+  .mock-result-content { flex: 1; }
+  .mock-result-line { height: 3px; background: #EEE; border-radius: 1px; margin-bottom: 2px; }
+  .mock-result-line.name { background: #333; width: 70%; }
+  .mock-result-line.gold { background: var(--gold); width: 40%; opacity: 0.6; }
+  .mock-result-btn { width: 28px; height: 10px; background: var(--gold); border-radius: 1px; margin-top: 4px; opacity: 0.8; }
+
+  .mock-map { background: #E8F0E8; height: 80px; border-radius: 2px; position: relative; overflow: hidden; margin-top: 4px; }
+  .mock-map-lines { position: absolute; inset: 0; }
+  .mock-map-road { position: absolute; background: white; }
+  .mock-map-road.h { height: 2px; left: 0; right: 0; }
+  .mock-map-road.v { width: 2px; top: 0; bottom: 0; }
+  .mock-map-pin { position: absolute; width: 10px; height: 10px; background: var(--gold); border-radius: 50%; transform: translate(-50%, -50%); }
+
+  .screen-info { padding: 1.5rem; }
+  .screen-info h4 {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.4rem;
+  }
+  .screen-info p { font-size: 0.82rem; color: var(--mid); line-height: 1.5; font-weight: 300; }
+
+  /* ── INSIGHTS ── */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .insight-card {
+    padding: 2.5rem;
+    border-top: 2px solid var(--rule);
+    transition: border-color 0.3s;
+  }
+  .insight-card:hover { border-top-color: var(--gold); }
+
+  .insight-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: var(--gold);
+    transition: background 0.3s;
+  }
+  .insight-card:hover .insight-icon { background: var(--gold-pale); }
+
+  .insight-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.75rem;
+  }
+
+  .insight-card p { font-size: 0.875rem; line-height: 1.7; color: var(--mid); font-weight: 300; }
+
+  /* ── REFLECTION ── */
+  .reflection-layout {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 6rem;
+    align-items: start;
+    margin-top: 4rem;
+  }
+
+  .reflection-sidebar h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--ink);
+    margin-bottom: 2rem;
+    line-height: 1.3;
+  }
+
+  .reflection-tags { display: flex; flex-direction: column; gap: 0.5rem; }
+  .tag {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--rule);
+    color: var(--mid);
+    display: inline-block;
+    transition: all 0.2s;
+  }
+  .tag:hover { border-color: var(--gold); color: var(--gold); }
+
+  .reflection-content p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--mid);
+    font-weight: 300;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--warm-dark);
+    padding: 4rem;
+    text-align: center;
+  }
+
+  footer .footer-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 0.5rem;
+  }
+
+  footer p { font-size: 0.75rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); }
+
+  footer .footer-rule {
+    width: 3rem;
+    height: 1px;
+    background: var(--gold);
+    margin: 1.5rem auto;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes gridPulse {
+    from { opacity: 0.03; }
+    to { opacity: 0.08; }
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 7rem 2rem 4rem; }
+    nav { padding: 1.2rem 2rem; }
+    .container { padding: 0 2rem; }
+    .overview-grid { grid-template-columns: 1fr; }
+    .pain-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: 1fr 1fr; }
+    .screens-grid { grid-template-columns: 1fr; }
+    .screen-card.featured { grid-row: auto; }
+    .insights-grid { grid-template-columns: 1fr; }
+    .reflection-layout { grid-template-columns: 1fr; gap: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-name">Stefania Carta</a>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#design">Design</a></li>
+    <li><a href="#reflection">Reflection</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="hero-tag">UX Case Study — 2024</div>
+    <h1 class="hero-title">Paddington<br><em>Hotels</em><br>Booking</h1>
+    <p class="hero-desc">A complete, research-driven UX design project — from usability testing on live hotel websites through affinity mapping, journey mapping, hand-drawn wireframes, and high-fidelity prototype.</p>
+    <div class="hero-meta">
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">UX Researcher & Designer</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Tools</span>
+        <span class="meta-value">Figma · Miro</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Platform</span>
+        <span class="meta-value">Desktop Web</span>
+      </div>
+    </div>
+    <div class="scroll-indicator">Scroll to explore</div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-pattern">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="hero-floating">
+      <div class="hotel-logo-display">
+        <div class="crest"></div>
+        <h2>Paddington</h2>
+        <p>Hotels &nbsp;·&nbsp; London</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section>
+  <div class="container">
+    <div class="section-label reveal">Overview</div>
+    <h2 class="section-title reveal reveal-delay-1">The challenge of booking<br>with confidence</h2>
+    <p class="section-body reveal reveal-delay-2">Hotel booking flows are often opaque, frustrating to navigate, and designed in ways that erode user trust. This project asked: what does it look like when every design decision is grounded in what real users actually need?</p>
+
+    <div class="overview-grid">
+      <div class="overview-card reveal">
+        <div class="overview-card-num">01</div>
+        <h3>The Challenge</h3>
+        <p>Hotel booking flows are confusing, hide critical information like cancellation policies, and fail to support users in making confident decisions.</p>
+      </div>
+      <div class="overview-card reveal reveal-delay-1">
+        <div class="overview-card-num">02</div>
+        <h3>The Goal</h3>
+        <p>Design a booking experience that is transparent, well-structured, and gives users the confidence to complete their booking without second-guessing.</p>
+      </div>
+      <div class="overview-card reveal reveal-delay-2">
+        <div class="overview-card-num">03</div>
+        <h3>The Outcome</h3>
+        <p>A fully interactive Figma prototype with 15+ documented screen states, built on evidence from usability testing, affinity mapping, and journey mapping.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section class="research-bg" id="research">
+  <div class="container">
+    <div class="section-label reveal">Research Phase</div>
+    <h2 class="section-title reveal reveal-delay-1">Listening before designing</h2>
+    <p class="section-body reveal reveal-delay-2">Before sketching a single screen, I ran usability testing sessions on two real hotel booking websites — Barceló and The Doyle Collection — observing where users struggled, where they felt confident, and what broke their trust.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <span class="pain-type pain">Pain Point</span>
+        <h4>No map, no spatial confidence</h4>
+        <p>Users couldn't assess hotel proximity to landmarks. Without a map, they doubted their own knowledge of the city's geography and hesitated to commit.</p>
+      </div>
+      <div class="pain-card reveal reveal-delay-1">
+        <span class="pain-type pain">Pain Point</span>
+        <h4>Breakfast invisible in add-ons</h4>
+        <p>Across all four usability tests, breakfast was consistently impossible to find. Users forgot it was a task requirement because it simply wasn't visible where expected.</p>
+      </div>
+      <div class="pain-card reveal reveal-delay-2">
+        <span class="pain-type pain">Pain Point</span>
+        <h4>Cancellation hidden until checkout</h4>
+        <p>Free cancellation only appeared after clicking 'Book Now' — creating anxiety and eroding the trust users needed to proceed with a purchase.</p>
+      </div>
+      <div class="pain-card reveal reveal-delay-3">
+        <span class="pain-type pain">Pain Point</span>
+        <h4>Image-only room listings</h4>
+        <p>Room types were presented as large photos with no labelling, filtering, or comparison data. Users were forced to scroll repeatedly with no way to narrow their options.</p>
+      </div>
+      <div class="pain-card reveal">
+        <span class="pain-type positive">Positive Interaction</span>
+        <h4>Clear, labelled homepage navigation</h4>
+        <p>Users felt immediately oriented when the homepage navigation was self-explanatory. A clear layout reduced cognitive load and built initial confidence.</p>
+      </div>
+      <div class="pain-card reveal reveal-delay-1">
+        <span class="pain-type positive">Positive Interaction</span>
+        <h4>Booking CTA in expected location</h4>
+        <p>When the primary booking action was in the top-right corner, users found it immediately — it matched their mental model from TripAdvisor and Booking.com.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-section">
+  <div class="quote-inner">
+    <div class="quote-mark">"</div>
+    <blockquote>I'd like a little map to pop up there — I am a visual person. So you can see how far you are away from anywhere.</blockquote>
+    <p class="quote-attr">Usability Test Participant · Barceló</p>
+  </div>
+</div>
+
+<!-- SYNTHESIS -->
+<section>
+  <div class="container">
+    <div class="section-label reveal">Synthesis</div>
+    <h2 class="section-title reveal reveal-delay-1">From observations<br>to patterns</h2>
+    <p class="section-body reveal reveal-delay-2">I built an affinity diagram in Miro by analysing 14 pages of timestamped notes from four usability sessions. Observations were grouped into nine recurring problem themes that drove every subsequent design decision.</p>
+
+    <div class="insights-grid">
+      <div class="insight-card reveal">
+        <div class="insight-icon">◎</div>
+        <h3>Spatial Orientation</h3>
+        <p>Users needed visual mapping tools to feel confident about hotel locations and proximity to city landmarks.</p>
+      </div>
+      <div class="insight-card reveal reveal-delay-1">
+        <div class="insight-icon">⊞</div>
+        <h3>Search & Filtering</h3>
+        <p>Filters were invisible or missed entirely. Poor visual hierarchy forced excessive scrolling without results.</p>
+      </div>
+      <div class="insight-card reveal reveal-delay-2">
+        <div class="insight-icon">◈</div>
+        <h3>Transparency & Trust</h3>
+        <p>Pricing, policies, and room details needed to be visible upfront — not discovered deep in the booking funnel.</p>
+      </div>
+      <div class="insight-card reveal">
+        <div class="insight-icon">⌘</div>
+        <h3>Information Architecture</h3>
+        <p>Rooms were image-heavy and data-light, making comparison impossible without significant effort from the user.</p>
+      </div>
+      <div class="insight-card reveal reveal-delay-1">
+        <div class="insight-icon">✕</div>
+        <h3>Cancellation Clarity</h3>
+        <p>Free cancellation was duplicated, unclear, or hidden — one of the most critical signals for user trust and booking confidence.</p>
+      </div>
+      <div class="insight-card reveal reveal-delay-2">
+        <div class="insight-icon">€</div>
+        <h3>Payment Transparency</h3>
+        <p>Pay-on-arrival options were not surfaced early enough. Total price including fees needed to be visible at every stage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section style="background: var(--white);" id="process">
+  <div class="container">
+    <div class="section-label reveal">Design Process</div>
+    <h2 class="section-title reveal reveal-delay-1">Evidence to execution,<br>step by step</h2>
+    <p class="section-body reveal reveal-delay-2">The design process followed a rigorous, sequential path — each phase building on the last, with no step skipped.</p>
+
+    <div class="process-steps reveal">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Usability Testing</h3>
+        <p>Observed real users booking hotels on Barceló and The Doyle Collection. Timestamped note-taking across 4 sessions.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Affinity Diagram</h3>
+        <p>Synthesised 14 pages of notes into 9 themed clusters in Miro, identifying recurring patterns across participants.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Journey Map</h3>
+        <p>Mapped emotions, pain points, and goals across 7 journey stages with an emotion graph showing dips in user confidence.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <h3>Wireframing</h3>
+        <p>Hand-drew 20+ screen states on paper, iterating on key components across multiple versions before moving to Figma.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">05</div>
+        <h3>Prototype</h3>
+        <p>Built a high-fidelity, fully interactive Figma prototype with 15+ documented states covering the complete booking flow.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section class="screens-section" id="design">
+  <div class="container">
+    <div class="section-label reveal">High-Fidelity Prototype</div>
+    <h2 class="section-title reveal reveal-delay-1">Every screen, every state</h2>
+    <p class="section-body reveal reveal-delay-2">The prototype documents the full booking journey — from homepage search through to checkout — with every interaction state labelled and justified.</p>
+
+    <div class="screens-grid">
+      <div class="screen-card featured reveal">
+        <div class="screen-preview">
+          <div class="mock-ui">
+            <div class="mock-nav">
+              <div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div>
+              <div class="mock-url"></div>
+            </div>
+            <div class="mock-body">
+              <div class="mock-hero-bar"></div>
+              <div class="mock-hero-bar short"></div>
+              <div class="mock-search">
+                <div class="mock-field"></div>
+                <div class="mock-field"></div>
+                <div class="mock-field"></div>
+                <div class="mock-btn"></div>
+              </div>
+              <div style="height:6px;background:#EEE;border-radius:2px;margin:8px 0 5px;width:60%"></div>
+              <div class="mock-cards">
+                <div class="mock-card-mini"><div class="mock-card-img"></div><div class="mock-card-text"><div class="mock-card-line"></div><div class="mock-card-line gold"></div></div></div>
+                <div class="mock-card-mini"><div class="mock-card-img" style="background:linear-gradient(135deg,#B8A89A,#907060)"></div><div class="mock-card-text"><div class="mock-card-line"></div><div class="mock-card-line gold"></div></div></div>
+                <div class="mock-card-mini"><div class="mock-card-img" style="background:linear-gradient(135deg,#8A9870,#607040)"></div><div class="mock-card-text"><div class="mock-card-line"></div><div class="mock-card-line gold"></div></div></div>
+              </div>
+              <div style="height:6px;background:#EEE;border-radius:2px;margin:8px 0 5px;width:70%"></div>
+              <div class="mock-cards">
+                <div class="mock-card-mini"><div class="mock-card-img" style="background:linear-gradient(135deg,#7A8878,#506050);height:32px"></div><div class="mock-card-text"><div class="mock-card-line"></div><div class="mock-card-line gold"></div></div></div>
+                <div class="mock-card-mini"><div class="mock-card-img" style="background:linear-gradient(135deg,#A89878,#806848);height:32px"></div><div class="mock-card-text"><div class="mock-card-line"></div><div class="mock-card-line gold"></div></div></div>
+                <div class="mock-card-mini"><div class="mock-card-img" style="background:linear-gradient(135deg,#88A0B8,#506080);height:32px"></div><div class="mock-card-text"><div class="mock-card-line"></div><div class="mock-card-line gold"></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-info">
+          <h4>Homepage</h4>
+          <p>Hero search with destination, dates, and guests. Curated room sections below the fold with real-time availability indicators.</p>
+        </div>
+      </div>
+
+      <div class="screen-card reveal reveal-delay-1">
+        <div class="screen-preview">
+          <div class="mock-ui" style="width:88%;height:88%">
+            <div class="mock-nav"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-url"></div></div>
+            <div class="mock-body" style="display:flex;gap:5px">
+              <div style="width:40px;flex-shrink:0">
+                <div style="height:30px;background:#E8F0E8;border-radius:2px;margin-bottom:4px"></div>
+                <div style="font-size:4px;color:#999;margin-bottom:3px">Filters</div>
+                <div style="height:5px;background:#E8DCC8;border-radius:1px;margin-bottom:2px"></div>
+                <div style="height:4px;background:#EEE;border-radius:1px;margin-bottom:2px"></div>
+                <div style="height:4px;background:#EEE;border-radius:1px"></div>
+              </div>
+              <div style="flex:1">
+                <div class="mock-results">
+                  <div class="mock-result"><div class="mock-result-img"></div><div class="mock-result-content"><div class="mock-result-line name"></div><div class="mock-result-line"></div><div class="mock-result-line gold"></div><div class="mock-result-btn"></div></div></div>
+                  <div class="mock-result"><div class="mock-result-img" style="background:linear-gradient(135deg,#B8A89A,#907060)"></div><div class="mock-result-content"><div class="mock-result-line name"></div><div class="mock-result-line"></div><div class="mock-result-line"></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-info">
+          <h4>Search Results</h4>
+          <p>Persistent map preview, active filter tags, sort controls, and list/map view toggle.</p>
+        </div>
+      </div>
+
+      <div class="screen-card reveal reveal-delay-2">
+        <div class="screen-preview">
+          <div class="mock-ui" style="width:88%;height:88%">
+            <div class="mock-nav"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-url"></div></div>
+            <div class="mock-body">
+              <div class="mock-map">
+                <div class="mock-map-lines">
+                  <div class="mock-map-road h" style="top:35%"></div>
+                  <div class="mock-map-road h" style="top:65%"></div>
+                  <div class="mock-map-road v" style="left:30%"></div>
+                  <div class="mock-map-road v" style="left:70%"></div>
+                </div>
+                <div class="mock-map-pin" style="top:40%;left:35%"></div>
+                <div class="mock-map-pin" style="top:55%;left:65%;background:#E08080"></div>
+                <div style="position:absolute;top:30%;left:25%;background:white;padding:2px 4px;font-size:4px;border-radius:1px;box-shadow:0 1px 3px rgba(0,0,0,0.2)">€300/night</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-info">
+          <h4>Map View</h4>
+          <p>Interactive map with hotel pins and popup previews — designed directly from research.</p>
+        </div>
+      </div>
+
+      <div class="screen-card reveal">
+        <div class="screen-preview">
+          <div class="mock-ui" style="width:88%;height:88%">
+            <div class="mock-nav"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-url"></div></div>
+            <div class="mock-body">
+              <div style="display:flex;gap:5px">
+                <div style="flex:1">
+                  <div style="height:40px;background:linear-gradient(135deg,#C8B89A,#A09070);border-radius:2px;margin-bottom:4px"></div>
+                  <div style="display:flex;gap:2px;margin-bottom:4px">
+                    <div style="height:20px;flex:1;background:linear-gradient(135deg,#4A5A6A,#2A3A4A);border-radius:1px"></div>
+                    <div style="height:20px;flex:1;background:linear-gradient(135deg,#6A5040,#4A3020);border-radius:1px"></div>
+                    <div style="height:20px;flex:1;background:linear-gradient(135deg,#C8A870,#A08050);border-radius:1px"></div>
+                  </div>
+                </div>
+                <div style="flex:1">
+                  <div style="height:4px;background:#333;border-radius:1px;margin-bottom:3px"></div>
+                  <div style="height:3px;background:#EEE;border-radius:1px;margin-bottom:2px"></div>
+                  <div style="height:3px;background:#EEE;border-radius:1px;margin-bottom:4px"></div>
+                  <div style="border:1px solid #EEE;border-radius:1px;padding:2px">
+                    <div style="display:flex;gap:2px;margin-bottom:2px"><div style="flex:1;height:3px;background:#EEE"></div><div style="flex:1;height:3px;background:#EEE"></div><div style="width:16px;height:8px;background:var(--gold);border-radius:1px"></div></div>
+                    <div style="display:flex;gap:2px"><div style="flex:1;height:3px;background:#EEE"></div><div style="flex:1;height:3px;background:#EEE"></div><div style="width:16px;height:8px;background:#EEE;border-radius:1px"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-info">
+          <h4>Hotel & Room Detail</h4>
+          <p>Cancellation policy on room cards. Photo gallery, room table with price, options, and CTA.</p>
+        </div>
+      </div>
+
+      <div class="screen-card reveal reveal-delay-1">
+        <div class="screen-preview">
+          <div class="mock-ui" style="width:88%;height:88%">
+            <div class="mock-nav"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-url"></div></div>
+            <div class="mock-body" style="display:flex;gap:5px">
+              <div style="width:45px;flex-shrink:0">
+                <div style="height:30px;background:linear-gradient(135deg,#C8B89A,#A09070);border-radius:2px;margin-bottom:3px"></div>
+                <div style="height:3px;background:#333;border-radius:1px;margin-bottom:2px"></div>
+                <div style="height:3px;background:#EEE;border-radius:1px;margin-bottom:5px"></div>
+                <div style="height:3px;background:var(--gold);border-radius:1px;width:80%;margin-bottom:1px;opacity:0.6"></div>
+                <div style="height:2px;background:#EEE;border-radius:1px;margin-bottom:4px"></div>
+                <div style="height:8px;background:var(--gold);border-radius:1px;width:100%;opacity:0.8"></div>
+              </div>
+              <div style="flex:1">
+                <div style="height:3px;background:#333;border-radius:1px;margin-bottom:3px"></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px">
+                  <div style="height:12px;background:#F5F5F5;border-radius:1px;border:1px solid #EEE"></div>
+                  <div style="height:12px;background:#F5F5F5;border-radius:1px;border:1px solid #EEE"></div>
+                  <div style="height:12px;background:#F5F5F5;border-radius:1px;border:1px solid #EEE;grid-column:1/-1"></div>
+                </div>
+                <div style="height:3px;background:#333;border-radius:1px;margin:4px 0 2px"></div>
+                <div style="display:flex;gap:3px;align-items:center;margin-bottom:2px"><div style="width:5px;height:5px;border:1px solid #CCC;border-radius:1px"></div><div style="height:3px;flex:1;background:#EEE;border-radius:1px"></div></div>
+                <div style="display:flex;gap:3px;align-items:center;margin-bottom:2px"><div style="width:5px;height:5px;border:1px solid #CCC;border-radius:1px;background:var(--gold);opacity:0.7"></div><div style="height:3px;flex:1;background:#EEE;border-radius:1px"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="screen-info">
+          <h4>Booking Form</h4>
+          <p>Live price updates as upgrades are selected. Persistent accommodation summary throughout.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION -->
+<section id="reflection">
+  <div class="container">
+    <div class="section-label reveal">Reflection</div>
+    <h2 class="section-title reveal reveal-delay-1">What this project<br>taught me</h2>
+
+    <div class="reflection-layout">
+      <div class="reflection-sidebar reveal">
+        <h3>Methods & skills applied</h3>
+        <div class="reflection-tags">
+          <span class="tag">Usability Testing</span>
+          <span class="tag">Timestamped Note-Taking</span>
+          <span class="tag">Affinity Diagramming</span>
+          <span class="tag">Customer Journey Mapping</span>
+          <span class="tag">Flow Diagramming</span>
+          <span class="tag">Paper Wireframing</span>
+          <span class="tag">Iterative Design</span>
+          <span class="tag">High-Fidelity Prototyping</span>
+          <span class="tag">Interaction State Mapping</span>
+          <span class="tag">Figma</span>
+          <span class="tag">Miro</span>
+        </div>
+      </div>
+
+      <div class="reflection-content reveal reveal-delay-2">
+        <p>This project taught me that the most impactful design decisions are often the simplest ones — surfacing a price, labelling a filter, showing a map. The research made it clear that users were not confused because they lacked intelligence; they were confused because the information they needed was hidden or ambiguous.</p>
+        <p>The process of moving from timestamped usability notes to an affinity diagram to a journey map to sketches to a prototype also demonstrated why skipping any of these steps is costly. Each phase revealed something the previous one could not: the notes captured moments, the affinity diagram revealed patterns, the journey map showed emotions, and the sketches tested structure before a single pixel was committed to Figma.</p>
+        <p>If I were to extend this project, I would conduct usability testing on the prototype itself — closing the loop by comparing the original pain points against the new design — and iterate on the post-booking screens, which remain outside the scope of this version.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-name">Stefania Carta</p>
+  <div class="footer-rule"></div>
+  <p>UX Designer · Trust & Safety · Dublin</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
