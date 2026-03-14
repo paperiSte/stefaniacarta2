@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EatWise — UX Research Case Study · Stefania Carta</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark: #1C2B1A;
+    --green-mid: #2D4A2A;
+    --green: #3D6B38;
+    --green-light: #5C8F55;
+    --green-pale: #E8F0E6;
+    --green-mist: #F2F7F1;
+    --cream: #FAF8F3;
+    --warm: #F5F0E8;
+    --ink: #1A1A16;
+    --mid: #4A4A42;
+    --muted: #8A8A80;
+    --rule: #D8E4D5;
+    --white: #FFFFFF;
+    --amber: #C47E2A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV — matches Paddington page exactly */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 4rem;
+    background: rgba(250,246,238,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #E8DCC8;
+  }
+  .nav-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 400; letter-spacing: 0.08em; color: #5C4E38; text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #9C8E7A; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: #B8860B; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 5fr 4fr;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 8rem 4rem 6rem;
+    background: var(--green-dark);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(61,107,56,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(29,43,26,0.8) 0%, transparent 50%);
+  }
+
+  .leaf-pattern {
+    position: absolute; top: 0; right: 0;
+    width: 60%; height: 100%;
+    opacity: 0.04;
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0.8) 0px, rgba(255,255,255,0.8) 1px,
+      transparent 1px, transparent 28px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255,255,255,0.8) 0px, rgba(255,255,255,0.8) 1px,
+      transparent 1px, transparent 28px
+    );
+  }
+
+  .hero-tag {
+    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--green-light); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+    position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp 0.8s 0.2s ease forwards;
+  }
+  .hero-tag::before { content: ''; width: 2rem; height: 1px; background: var(--green-light); display: block; }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 5.5vw, 5rem);
+    font-weight: 400; line-height: 1.05;
+    color: rgba(255,255,255,0.95);
+    margin-bottom: 1.75rem;
+    position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp 0.8s 0.4s ease forwards;
+  }
+  .hero-title em { font-style: italic; color: #8FBF86; }
+
+  .hero-desc {
+    font-size: 0.95rem; line-height: 1.75; font-weight: 300;
+    color: rgba(255,255,255,0.55);
+    max-width: 440px; margin-bottom: 3rem;
+    position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp 0.8s 0.6s ease forwards;
+  }
+
+  .hero-meta {
+    display: flex; gap: 2.5rem; flex-wrap: wrap;
+    position: relative; z-index: 2;
+    opacity: 0; animation: fadeUp 0.8s 0.8s ease forwards;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 0.3rem; }
+  .meta-label { font-size: 0.62rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+  .meta-value { font-size: 0.88rem; color: rgba(255,255,255,0.8); font-weight: 300; }
+
+  .hero-right {
+    background: var(--green-mist);
+    display: flex; align-items: center; justify-content: center;
+    padding: 6rem 3rem;
+    position: relative;
+  }
+
+  .stat-cluster {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; width: 100%; max-width: 360px;
+    opacity: 0; animation: fadeIn 1s 1s ease forwards;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border: 1px solid var(--rule);
+    padding: 2rem 1.75rem;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(29,43,26,0.08); }
+  .stat-card.featured { grid-column: 1/-1; background: var(--green-dark); border-color: var(--green-dark); }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-weight: 400; line-height: 1;
+    color: var(--green-light); margin-bottom: 0.4rem;
+  }
+  .stat-card.featured .stat-num { color: #8FBF86; font-size: 3.2rem; }
+  .stat-label { font-size: 0.75rem; color: var(--muted); line-height: 1.4; font-weight: 300; }
+  .stat-card.featured .stat-label { color: rgba(255,255,255,0.5); }
+
+  .stat-bar {
+    position: absolute; bottom: 0; left: 0;
+    height: 3px; background: var(--green-light);
+    transition: width 1.5s ease;
+  }
+
+  /* SECTIONS */
+  section { padding: 7rem 0; }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 4rem; }
+
+  .section-label {
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--green); margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 400; line-height: 1.15;
+    color: var(--ink); margin-bottom: 1.25rem;
+  }
+
+  .section-body { font-size: 0.97rem; line-height: 1.85; color: var(--mid); font-weight: 300; max-width: 660px; }
+
+  /* OVERVIEW */
+  .overview-strip {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--rule);
+    border: 1px solid var(--rule); margin-top: 4rem;
+  }
+  .overview-cell {
+    background: var(--white); padding: 2.5rem 2rem;
+  }
+  .overview-cell h3 { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--green); margin-bottom: 0.75rem; }
+  .overview-cell p { font-size: 0.88rem; line-height: 1.7; color: var(--mid); font-weight: 300; }
+
+  /* DARK SECTION */
+  .dark-section { background: var(--green-dark); }
+  .dark-section .section-label { color: #8FBF86; }
+  .dark-section .section-label::after { background: rgba(255,255,255,0.1); }
+  .dark-section .section-title { color: rgba(255,255,255,0.92); }
+  .dark-section .section-body { color: rgba(255,255,255,0.55); }
+
+  /* RESEARCH METHOD CARDS */
+  .method-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; margin-top: 3.5rem; }
+  .method-card {
+    border: 1px solid rgba(143,191,134,0.2); padding: 2.25rem;
+    position: relative; overflow: hidden; transition: border-color 0.3s;
+  }
+  .method-card:hover { border-color: rgba(143,191,134,0.5); }
+  .method-card::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: var(--green-light);
+    transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
+  }
+  .method-card:hover::after { transform: scaleX(1); }
+  .method-icon { font-size: 1.5rem; margin-bottom: 1.25rem; opacity: 0.7; }
+  .method-card h4 { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: #8FBF86; margin-bottom: 0.6rem; }
+  .method-card p { font-size: 0.85rem; line-height: 1.65; color: rgba(255,255,255,0.5); font-weight: 300; }
+  .method-badge { display: inline-block; margin-top: 1rem; padding: 0.3rem 0.7rem; background: rgba(143,191,134,0.1); font-size: 0.65rem; letter-spacing: 0.1em; color: #8FBF86; }
+
+  /* DATA CHARTS */
+  .charts-bg { background: var(--warm); }
+
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 4rem; }
+  .chart-card {
+    background: var(--white); border: 1px solid var(--rule); padding: 2.5rem;
+  }
+  .chart-title { font-size: 0.8rem; font-weight: 500; color: var(--ink); margin-bottom: 0.4rem; }
+  .chart-sub { font-size: 0.72rem; color: var(--muted); margin-bottom: 2rem; font-weight: 300; }
+
+  .donut-wrap { display: flex; align-items: center; gap: 2rem; }
+  .donut-svg { flex-shrink: 0; }
+
+  .legend { display: flex; flex-direction: column; gap: 0.6rem; }
+  .legend-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.78rem; color: var(--mid); font-weight: 300; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .bar-chart { display: flex; flex-direction: column; gap: 0.75rem; }
+  .bar-row { display: flex; align-items: center; gap: 0.75rem; }
+  .bar-label { font-size: 0.72rem; color: var(--mid); width: 160px; flex-shrink: 0; line-height: 1.3; font-weight: 300; }
+  .bar-track { flex: 1; height: 10px; background: var(--green-pale); border-radius: 2px; overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 1.5s ease; width: 0; }
+  .bar-pct { font-size: 0.72rem; color: var(--green); font-weight: 500; width: 36px; text-align: right; flex-shrink: 0; }
+
+  /* INSIGHTS GRID */
+  .insights-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 4rem; }
+  .insight-tile {
+    padding: 2.5rem; border-top: 2px solid var(--rule); transition: border-color 0.3s;
+  }
+  .insight-tile:hover { border-top-color: var(--green); }
+  .insight-pct {
+    font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 400;
+    color: var(--green-light); line-height: 1; margin-bottom: 0.75rem;
+  }
+  .insight-tile h3 { font-size: 0.82rem; font-weight: 500; color: var(--ink); margin-bottom: 0.5rem; }
+  .insight-tile p { font-size: 0.82rem; line-height: 1.65; color: var(--mid); font-weight: 300; }
+
+  /* QUOTE */
+  .quote-band { background: var(--green-pale); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: 5rem 0; }
+  .quote-inner { max-width: 720px; margin: 0 auto; text-align: center; padding: 0 4rem; }
+  .q-mark { font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 0.6; color: var(--green); margin-bottom: 1.25rem; }
+  blockquote { font-family: 'Playfair Display', serif; font-size: clamp(1.1rem, 2vw, 1.5rem); font-weight: 400; font-style: italic; line-height: 1.55; color: var(--green-dark); margin-bottom: 1.25rem; }
+  .q-attr { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  /* FINDINGS */
+  .findings-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 4rem; align-items: start; }
+  .finding-group h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule); }
+  .finding-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--green-mist); }
+  .finding-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); margin-top: 7px; flex-shrink: 0; }
+  .finding-item p { font-size: 0.875rem; line-height: 1.7; color: var(--mid); font-weight: 300; }
+
+  /* DUAL AUDIENCE */
+  .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 4rem; }
+  .audience-card { border: 1px solid var(--rule); padding: 2.5rem; position: relative; overflow: hidden; }
+  .audience-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+  .audience-card.customers::before { background: var(--green); }
+  .audience-card.owners::before { background: var(--amber); }
+  .audience-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .audience-card.customers .audience-label { color: var(--green); }
+  .audience-card.owners .audience-label { color: var(--amber); }
+  .audience-card h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; color: var(--ink); margin-bottom: 1.25rem; }
+  .audience-stat { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0; border-bottom: 1px solid var(--green-mist); }
+  .audience-stat:last-child { border-bottom: none; }
+  .audience-stat-label { font-size: 0.8rem; color: var(--mid); font-weight: 300; }
+  .audience-stat-val { font-size: 0.9rem; font-weight: 500; color: var(--ink); }
+
+  /* REFLECTION */
+  .reflection-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 5rem; margin-top: 4rem; align-items: start; }
+  .refl-sidebar h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; }
+  .tags { display: flex; flex-direction: column; gap: 0.5rem; }
+  .tag { font-size: 0.68rem; letter-spacing: 0.08em; padding: 0.4rem 0.75rem; border: 1px solid var(--rule); color: var(--mid); display: inline-block; transition: all 0.2s; }
+  .tag:hover { border-color: var(--green); color: var(--green); }
+  .refl-body p { font-size: 0.95rem; line-height: 1.9; color: var(--mid); font-weight: 300; margin-bottom: 1.5rem; }
+
+  /* FOOTER — matches Paddington page exactly */
+  footer { background: #2C2416; padding: 4rem; text-align: center; }
+  footer p { font-size: 0.75rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.3); }
+  .footer-name { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem; }
+  .footer-rule { width: 3rem; height: 1px; background: #B8860B; margin: 1.5rem auto; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+  .reveal { opacity:0; transform:translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 7rem 1.5rem 4rem; }
+    .container { padding: 0 1.5rem; }
+    .overview-strip { grid-template-columns: 1fr; }
+    .method-grid, .charts-grid, .insights-row, .findings-layout, .audience-grid, .reflection-layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-name">Stefania Carta</a>
+  <ul class="nav-links">
+    <li><a href="#research">Research</a></li>
+    <li><a href="#data">Data</a></li>
+    <li><a href="#findings">Findings</a></li>
+    <li><a href="#reflection">Reflection</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-left">
+    <div class="leaf-pattern"></div>
+    <div class="hero-tag">UX Research · User Research Case Study</div>
+    <h1 class="hero-title">Sustainable<br><em>Eating</em><br>App Research</h1>
+    <p class="hero-desc">A dual-audience research study exploring the viability of a food waste reduction app in Dublin — combining quantitative surveys, focus groups, literature review, and market analysis to define product opportunities and user needs.</p>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Role</span><span class="meta-value">UX Researcher</span></div>
+      <div class="meta-item"><span class="meta-label">Methods</span><span class="meta-value">Surveys · Focus Group · Literature Review</span></div>
+      <div class="meta-item"><span class="meta-label">Participants</span><span class="meta-value">112 total (84 customers · 28 business owners)</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="stat-cluster">
+      <div class="stat-card featured">
+        <div class="stat-num">112</div>
+        <div class="stat-label">total research participants across two distinct stakeholder groups</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">82%</div>
+        <div class="stat-label">of customers would use the app</div>
+        <div class="stat-bar" style="width:82%"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">89%</div>
+        <div class="stat-label">of restaurant owners willing to join</div>
+        <div class="stat-bar" style="width:89%"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">70%</div>
+        <div class="stat-label">motivated by reducing food waste</div>
+        <div class="stat-bar" style="width:70%"></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">9</div>
+        <div class="stat-label">focus group participants, online via Zoom</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section>
+  <div class="container">
+    <div class="section-label reveal">Overview</div>
+    <h2 class="section-title reveal reveal-delay-1">Understanding both sides<br>of a two-sided marketplace</h2>
+    <p class="section-body reveal reveal-delay-2">Nearly one-third of all food produced globally is wasted each year. This research project set out to explore whether a food-rescue app — connecting restaurants with surplus end-of-day food to local consumers at a discount — was both desirable and viable in the Dublin market. The research intentionally addressed two separate stakeholder groups: customers and business owners, recognising that both needed to be convinced for the product to succeed.</p>
+
+    <div class="overview-strip">
+      <div class="overview-cell reveal">
+        <h3>The Problem</h3>
+        <p>Food waste is a major environmental and social issue. Restaurants discard substantial quantities of quality food at the end of each day, while a significant portion of the population cannot regularly afford takeaway food.</p>
+      </div>
+      <div class="overview-cell reveal reveal-delay-1">
+        <h3>The Opportunity</h3>
+        <p>A marketplace app connecting restaurants with surplus food to cost-conscious and environmentally motivated consumers — reducing waste, expanding access to quality food, and building a sustainable business model.</p>
+      </div>
+      <div class="overview-cell reveal reveal-delay-2">
+        <h3>The Research Question</h3>
+        <p>Would both restaurant owners and customers be willing to participate in such a platform? What features, pricing structures, and trust mechanisms would be essential for adoption?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH METHODS -->
+<section class="dark-section" id="research">
+  <div class="container">
+    <div class="section-label reveal">Research Design</div>
+    <h2 class="section-title reveal reveal-delay-1">A multi-method approach<br>to a dual-audience problem</h2>
+    <p class="section-body reveal reveal-delay-2">The research combined quantitative and qualitative methods, chosen deliberately to complement each other. Surveys captured breadth and statistical confidence; the focus group provided depth, nuance, and unexpected insights that numbers alone could not reveal.</p>
+
+    <div class="method-grid">
+      <div class="method-card reveal">
+        <div class="method-icon">📋</div>
+        <h4>Quantitative Survey — Customers</h4>
+        <p>An anonymous Google Forms survey distributed to restaurant and takeaway customers across Dublin, capturing attitudes toward food waste, app adoption intent, pricing expectations, and desired features.</p>
+        <span class="method-badge">84 responses</span>
+      </div>
+      <div class="method-card reveal reveal-delay-1">
+        <div class="method-icon">🏪</div>
+        <h4>Quantitative Survey — Business Owners</h4>
+        <p>A parallel survey targeting restaurant and takeaway owners, exploring willingness to join a discount food network, acceptable discount thresholds, and concerns about brand and quality perception.</p>
+        <span class="method-badge">28 responses</span>
+      </div>
+      <div class="method-card reveal reveal-delay-2">
+        <div class="method-icon">💬</div>
+        <h4>Qualitative Focus Group</h4>
+        <p>A structured online focus group (Zoom) with 9 participants exploring the concept in depth — product feasibility, potential challenges, marketing approaches, and fundraising strategies.</p>
+        <span class="method-badge">9 participants · Zoom</span>
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem;" class="reveal">
+      <div style="background: rgba(143,191,134,0.08); border: 1px solid rgba(143,191,134,0.2); padding: 2rem 2.5rem;">
+        <p style="font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase; color:#8FBF86; margin-bottom:0.75rem;">Research design note</p>
+        <p style="font-size:0.9rem; line-height:1.75; color:rgba(255,255,255,0.55); font-weight:300;">The decision to run two separate surveys — rather than a single combined instrument — was deliberate. Restaurant owners and customers have fundamentally different relationships with the product, different risk perceptions, and different success criteria. Conflating them into one survey would have obscured the distinct patterns that emerged from each group. This dual-audience design is a core strength of the research.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DATA -->
+<section class="charts-bg" id="data">
+  <div class="container">
+    <div class="section-label reveal">Survey Data</div>
+    <h2 class="section-title reveal reveal-delay-1">What the numbers revealed</h2>
+    <p class="section-body reveal reveal-delay-2">Both surveys produced strong, consistent signals. The data below represents the most strategically significant findings from each stakeholder group.</p>
+
+    <div class="charts-grid">
+
+      <!-- Chart 1: Customer adoption -->
+      <div class="chart-card reveal">
+        <div class="chart-title">Would you use the app?</div>
+        <div class="chart-sub">Customer survey · 84 responses</div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#E8F0E6" stroke-width="16"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#3D6B38" stroke-width="16"
+              stroke-dasharray="226 276" stroke-dashoffset="69" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#C47E2A" stroke-width="16"
+              stroke-dasharray="23 276" stroke-dashoffset="-157" stroke-linecap="round"/>
+            <text x="60" y="56" text-anchor="middle" font-size="18" font-weight="500" fill="#3D6B38" font-family="Playfair Display, serif">82%</text>
+            <text x="60" y="70" text-anchor="middle" font-size="9" fill="#8A8A80" font-family="Inter, sans-serif">Yes</text>
+          </svg>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#3D6B38"></div>Yes — 82.1%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#C47E2A"></div>No — 9.5%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#E8F0E6"></div>Maybe — 8.3%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 2: Business owners -->
+      <div class="chart-card reveal reveal-delay-1">
+        <div class="chart-title">Would you join the restaurant network?</div>
+        <div class="chart-sub">Business owners survey · 28 responses</div>
+        <div class="donut-wrap">
+          <svg class="donut-svg" width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#E8F0E6" stroke-width="16"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#3D6B38" stroke-width="16"
+              stroke-dasharray="246 276" stroke-dashoffset="69" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="44" fill="none" stroke="#C47E2A" stroke-width="16"
+              stroke-dasharray="29 276" stroke-dashoffset="-177" stroke-linecap="round"/>
+            <text x="60" y="56" text-anchor="middle" font-size="18" font-weight="500" fill="#3D6B38" font-family="Playfair Display, serif">89%</text>
+            <text x="60" y="70" text-anchor="middle" font-size="9" fill="#8A8A80" font-family="Inter, sans-serif">Yes</text>
+          </svg>
+          <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#3D6B38"></div>Yes — 89.3%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#C47E2A"></div>Maybe — 10.7%</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#E8F0E6"></div>No — 0%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 3: Most valued features -->
+      <div class="chart-card reveal" style="grid-column: 1/-1;">
+        <div class="chart-title">Which features would you value most in the app?</div>
+        <div class="chart-sub">Customer survey · 84 responses · multiple choice</div>
+        <div class="bar-chart" style="margin-top: 0.5rem;">
+          <div class="bar-row">
+            <div class="bar-label">Search by km/miles radius</div>
+            <div class="bar-track"><div class="bar-fill" data-width="66.7"></div></div>
+            <div class="bar-pct">66.7%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Search for different cuisines</div>
+            <div class="bar-track"><div class="bar-fill" data-width="56"></div></div>
+            <div class="bar-pct">56%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Delivery options</div>
+            <div class="bar-track"><div class="bar-fill" data-width="52.4"></div></div>
+            <div class="bar-pct">52.4%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Acknowledging different diets</div>
+            <div class="bar-track"><div class="bar-fill" data-width="47.6"></div></div>
+            <div class="bar-pct">47.6%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Search by time range</div>
+            <div class="bar-track"><div class="bar-fill" data-width="44"></div></div>
+            <div class="bar-pct">44%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 4: Motivation -->
+      <div class="chart-card reveal">
+        <div class="chart-title">What would make you order more often?</div>
+        <div class="chart-sub">Customer survey · 84 responses</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <div class="bar-label">Reducing food waste</div>
+            <div class="bar-track"><div class="bar-fill" data-width="70.2" style="background: var(--green-light)"></div></div>
+            <div class="bar-pct" style="color: var(--green-light)">70.2%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Less packaging waste</div>
+            <div class="bar-track"><div class="bar-fill" data-width="56"></div></div>
+            <div class="bar-pct">56%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Lower price</div>
+            <div class="bar-track"><div class="bar-fill" data-width="52.4"></div></div>
+            <div class="bar-pct">52.4%</div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">Discover local food offers</div>
+            <div class="bar-track"><div class="bar-fill" data-width="19"></div></div>
+            <div class="bar-pct">19%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart 5: Discount alignment -->
+      <div class="chart-card reveal reveal-delay-1">
+        <div class="chart-title">Discount rate consensus</div>
+        <div class="chart-sub">Customers vs business owners — a rare alignment</div>
+        <div style="display:flex; flex-direction:column; gap:1.5rem; margin-top:0.5rem;">
+          <div>
+            <div style="font-size:0.72rem; color:var(--green); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.1em;">Customers</div>
+            <div class="bar-chart">
+              <div class="bar-row"><div class="bar-label">20–30% discount</div><div class="bar-track"><div class="bar-fill" data-width="63.1"></div></div><div class="bar-pct">63.1%</div></div>
+              <div class="bar-row"><div class="bar-label">40–60% discount</div><div class="bar-track"><div class="bar-fill" data-width="36.9"></div></div><div class="bar-pct">36.9%</div></div>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:0.72rem; color:var(--amber); margin-bottom:0.5rem; text-transform:uppercase; letter-spacing:0.1em;">Business Owners</div>
+            <div class="bar-chart">
+              <div class="bar-row"><div class="bar-label">20–30% discount</div><div class="bar-track"><div class="bar-fill" data-width="67.9" style="background:var(--amber)"></div></div><div class="bar-pct" style="color:var(--amber)">67.9%</div></div>
+              <div class="bar-row"><div class="bar-label">40–60% discount</div><div class="bar-track"><div class="bar-fill" data-width="25" style="background:var(--amber)"></div></div><div class="bar-pct" style="color:var(--amber)">25%</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<div class="quote-band">
+  <div class="quote-inner">
+    <div class="q-mark">"</div>
+    <blockquote>The project was welcomed with general enthusiasm. Stakeholders were happy to reduce the environmental impact of their food production and consumption, as well as benefiting from exposure to a broader audience.</blockquote>
+    <p class="q-attr">Focus Group Summary · 9 Participants</p>
+  </div>
+</div>
+
+<!-- FINDINGS -->
+<section id="findings">
+  <div class="container">
+    <div class="section-label reveal">Key Findings</div>
+    <h2 class="section-title reveal reveal-delay-1">What the research<br>actually told us</h2>
+
+    <div class="insights-row">
+      <div class="insight-tile reveal">
+        <div class="insight-pct">82%</div>
+        <h3>Customer demand is strong</h3>
+        <p>The vast majority of customers expressed willingness to use the app, with environmental motivation outweighing price sensitivity as the primary driver.</p>
+      </div>
+      <div class="insight-tile reveal reveal-delay-1">
+        <div class="insight-pct">89%</div>
+        <h3>Supply-side viability confirmed</h3>
+        <p>Restaurant owners showed overwhelming openness to joining the network — critically, zero respondents said no. This removes the most significant supply-side risk for the product.</p>
+      </div>
+      <div class="insight-tile reveal reveal-delay-2">
+        <div class="insight-pct">63%</div>
+        <h3>Pricing consensus exists</h3>
+        <p>Both customers and owners independently converged on the 20–30% discount range as acceptable — an unusual and valuable alignment that de-risks the core business model.</p>
+      </div>
+    </div>
+
+    <div class="findings-layout" style="margin-top:4rem;">
+      <div class="finding-group reveal">
+        <h3>Customer Insights</h3>
+        <div class="finding-item"><div class="finding-dot"></div><p>Environmental motivation is the strongest driver — 70.2% said reducing food waste would increase their ordering frequency, above price (52.4%).</p></div>
+        <div class="finding-item"><div class="finding-dot"></div><p>Location-based search (66.7%) and cuisine filtering (56%) are the highest-priority features, suggesting discovery and relevance matter more than loyalty mechanics.</p></div>
+        <div class="finding-item"><div class="finding-dot"></div><p>90.4% would bring their own container for an additional discount — confirming strong sustainability intent beyond the core transaction.</p></div>
+        <div class="finding-item"><div class="finding-dot"></div><p>91.7% would donate €1 per order to enable charities to access the service free — an unusual finding that opens an additional social impact layer.</p></div>
+        <div class="finding-item"><div class="finding-dot"></div><p>Dietary needs are a significant consideration — 21.4% are vegetarian/vegan, and dietary filtering ranked as the top desired feature.</p></div>
+      </div>
+      <div class="finding-group reveal reveal-delay-2">
+        <h3>Business Owner Insights</h3>
+        <div class="finding-item"><div class="finding-dot"></div><p>Zero business owners said no to joining the network — even the 10.7% "maybe" responses represent an opportunity for further engagement rather than active resistance.</p></div>
+        <div class="finding-item"><div class="finding-dot"></div><p>67.9% of owners prefer the 20–30% discount range, matching customer expectations exactly and creating a natural pricing equilibrium.</p></div>
+        <div class="finding-item"><div class="finding-dot"></div><p>64.3% would offer extra discounts for customers bringing their own containers — showing genuine alignment with sustainability values beyond commercial interest.</p></div>
+        <div class="finding-item"><div class="finding-dot"></div><p>78.6% would contribute to a charity access model — mirroring customer willingness and suggesting a platform-level social impact feature could succeed.</p></div>
+        <div class="finding-item"><div class="finding-dot"></div><p>53.6% have 2–5 years of industry experience, suggesting an engaged, established operator base rather than newer, more risk-averse entrants.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DUAL AUDIENCE -->
+<section style="background: var(--green-mist);">
+  <div class="container">
+    <div class="section-label reveal">Dual-Audience Design</div>
+    <h2 class="section-title reveal reveal-delay-1">Two stakeholders,<br>one ecosystem</h2>
+    <p class="section-body reveal reveal-delay-2">The research was designed with a two-sided marketplace in mind — both groups must find value for the product to work. The data confirmed this alignment exists, which is a strong validation signal for the product concept.</p>
+
+    <div class="audience-grid">
+      <div class="audience-card customers reveal">
+        <div class="audience-label">Customers · 84 respondents</div>
+        <h3>What customers need</h3>
+        <div class="audience-stat"><span class="audience-stat-label">Primary motivation</span><span class="audience-stat-val">Reducing food waste</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Preferred discount</span><span class="audience-stat-val">20–30%</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Top feature</span><span class="audience-stat-val">Location search (km radius)</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Would bring own container</span><span class="audience-stat-val">90.4%</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Would donate €1 to charity access</span><span class="audience-stat-val">91.7%</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Main age bracket</span><span class="audience-stat-val">27–35 years (28.6%)</span></div>
+      </div>
+      <div class="audience-card owners reveal reveal-delay-1">
+        <div class="audience-label">Business Owners · 28 respondents</div>
+        <h3>What owners need</h3>
+        <div class="audience-stat"><span class="audience-stat-label">Willingness to join</span><span class="audience-stat-val">89.3% yes · 0% no</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Preferred discount to offer</span><span class="audience-stat-val">20–30%</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Would offer container discount</span><span class="audience-stat-val">64.3%</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Would donate to charity model</span><span class="audience-stat-val">78.6%</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Urban location</span><span class="audience-stat-val">89.3%</span></div>
+        <div class="audience-stat"><span class="audience-stat-label">Established operators (2–5yr)</span><span class="audience-stat-val">53.6%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFLECTION -->
+<section id="reflection">
+  <div class="container">
+    <div class="section-label reveal">Reflection</div>
+    <h2 class="section-title reveal reveal-delay-1">What this research<br>demonstrated</h2>
+    <div class="reflection-layout">
+      <div class="refl-sidebar reveal">
+        <h3>Methods applied</h3>
+        <div class="tags">
+          <span class="tag">Quantitative survey design</span>
+          <span class="tag">Dual-audience research</span>
+          <span class="tag">Focus group facilitation</span>
+          <span class="tag">Literature review</span>
+          <span class="tag">Market analysis</span>
+          <span class="tag">Stakeholder mapping</span>
+          <span class="tag">Data synthesis</span>
+          <span class="tag">Business model research</span>
+          <span class="tag">Ethical analysis</span>
+          <span class="tag">Google Forms</span>
+          <span class="tag">Zoom research facilitation</span>
+        </div>
+      </div>
+      <div class="refl-body reveal reveal-delay-2">
+        <p>The most significant finding of this research was not any single data point but rather the alignment between the two stakeholder groups. Customers and business owners independently arrived at the same acceptable discount range (20–30%), both expressed willingness to support a charity access model, and both showed genuine sustainability motivation beyond transactional self-interest. This convergence is rare and represents a strong product-market signal.</p>
+        <p>The decision to survey both sides of the marketplace separately — rather than relying on one group to represent the other — was the most important methodological choice. It revealed that the product was not simply desirable to customers but actively welcomed by the businesses that would need to supply it. Without this dual-audience design, that critical insight would have been invisible.</p>
+        <p>The focus group added qualitative texture that the surveys could not capture: enthusiasm, spontaneous feature suggestions (loyalty cards, rating systems), and realistic challenges around logistics and food quality standards. Together, the methods produced a layered picture of both the opportunity and the conditions needed for success.</p>
+        <p>If this research were extended, the natural next step would be competitive analysis against existing solutions (Too Good To Go entered the Irish market subsequently), followed by persona development and user journey mapping to translate research findings into design decisions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-name">Stefania Carta</p>
+  <div class="footer-rule"></div>
+  <p>UX Designer · Trust & Safety · Dublin</p>
+</footer>
+
+<script>
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+reveals.forEach(el => observer.observe(el));
+
+const barObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.chart-card').forEach(c => barObserver.observe(c));
+</script>
+</body>
+</html>
