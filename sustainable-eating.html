@@ -50,6 +50,38 @@
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #9C8E7A; text-decoration: none; transition: color 0.2s; }
   .nav-links a:hover { color: #B8860B; }
+  .nav-links a.nav-active {
+    color: var(--cream);
+    background: var(--green-dark);
+    padding: 0.3rem 0.75rem;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+
+  /* ── SUBNAV ── */
+  .subnav {
+    position: fixed;
+    top: 4.65rem;
+    left: 0; right: 0;
+    z-index: 99;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2rem;
+    padding: 0.55rem 4rem;
+    background: rgba(250, 248, 243, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #D8E4D5;
+  }
+  .subnav a {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8A8A80;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .subnav a:hover { color: #3D6B38; }
 
   /* HERO */
   .hero {
@@ -317,6 +349,7 @@
   @media (max-width: 900px) {
     nav { padding: 1.2rem 2rem; }
     .nav-links { display: none; }
+    .subnav { display: none; }
     .hero { grid-template-columns: 1fr; }
     .hero-right { display: none; }
     .hero-left { padding: 7rem 1.5rem 4rem; }
@@ -331,11 +364,16 @@
 <nav>
   <a href="index.html" class="nav-name">Stefania Carta</a>
   <ul class="nav-links">
-    <li><a href="#research">Research</a></li>
-    <li><a href="#data">Data</a></li>
-    <li><a href="#findings">Findings</a></li>
-    <li><a href="#reflection">Reflection</a></li>
+    <li><a href="index.html">Portfolio</a></li>
+    <li><a href="paddington.html">Paddington</a></li>
+    <li><a href="sustainable-eating.html" class="nav-active">Sustainable Eating</a></li>
   </ul>
+</nav>
+<nav class="subnav">
+  <a href="#research">Research</a>
+  <a href="#data">Data</a>
+  <a href="#findings">Findings</a>
+  <a href="#reflection">Reflection</a>
 </nav>
 
 <!-- HERO -->
@@ -442,8 +480,8 @@
     <div class="reveal" style="margin-top:2.5rem;">
       <p style="font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:#8FBF86;margin-bottom:1.25rem;">Raw survey data</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;">
-        <a href="https://docs.google.com/forms/d/1m3ODljf7iAzUxkc19sKRGfSHAY21nXhb80lMs12TID0/edit" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.25rem;border:1px solid rgba(143,191,134,0.3);font-size:0.72rem;letter-spacing:0.08em;color:rgba(255,255,255,0.55);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='#8FBF86';this.style.color='#8FBF86'" onmouseout="this.style.borderColor='rgba(143,191,134,0.3)';this.style.color='rgba(255,255,255,0.55)'">📋 Customer Survey — Google Forms</a>
-        <a href="https://docs.google.com/forms/d/1Unl9lf8zv96Okvs-Lehhc9YQz_N7-rSEqP05jdULo9c/edit" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.25rem;border:1px solid rgba(143,191,134,0.3);font-size:0.72rem;letter-spacing:0.08em;color:rgba(255,255,255,0.55);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='#8FBF86';this.style.color='#8FBF86'" onmouseout="this.style.borderColor='rgba(143,191,134,0.3)';this.style.color='rgba(255,255,255,0.55)'">🏪 Business Owners Survey — Google Forms</a>
+        <a href="https://docs.google.com/forms/d/1m3ODljf7iAzUxkc19sKRGfSHAY21nXhb80lMs12TID0/viewanalytics" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.25rem;border:1px solid rgba(143,191,134,0.3);font-size:0.72rem;letter-spacing:0.08em;color:rgba(255,255,255,0.55);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='#8FBF86';this.style.color='#8FBF86'" onmouseout="this.style.borderColor='rgba(143,191,134,0.3)';this.style.color='rgba(255,255,255,0.55)'">📋 Customer Survey — Results</a>
+        <a href="https://docs.google.com/forms/d/1Unl9lf8zv96Okvs-Lehhc9YQz_N7-rSEqP05jdULo9c/viewanalytics" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;padding:0.65rem 1.25rem;border:1px solid rgba(143,191,134,0.3);font-size:0.72rem;letter-spacing:0.08em;color:rgba(255,255,255,0.55);text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='#8FBF86';this.style.color='#8FBF86'" onmouseout="this.style.borderColor='rgba(143,191,134,0.3)';this.style.color='rgba(255,255,255,0.55)'">🏪 Business Owners Survey — Results</a>
       </div>
     </div>
   </div>
