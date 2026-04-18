@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quinn — 20 Scripts & Content Calendar</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --off-white: #F2EDE6;
+    --cream: #E8E0D4;
+    --amber: #E8A020;
+    --amber-dim: #B87A10;
+    --red: #D93B2A;
+    --green: #4CAF7D;
+    --muted: #8A8070;
+    --border: #2A2520;
+    --card-bg: #111009;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.018) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.018) 40px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* MASTHEAD */
+  .masthead {
+    border-top: 3px solid var(--amber);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 0 24px;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .issue-label {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(48px, 8vw, 82px);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    color: var(--off-white);
+  }
+
+  h1 em { color: var(--amber); font-style: normal; }
+
+  .masthead-right {
+    text-align: right;
+    flex-shrink: 0;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    line-height: 2.2;
+  }
+
+  /* SECTION */
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.04em;
+    color: var(--off-white);
+    margin-bottom: 12px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 48px 0;
+  }
+
+  /* CALENDAR */
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 12px;
+  }
+
+  .cal-header {
+    background: var(--amber);
+    color: var(--black);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 8px 10px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .cal-cell {
+    background: var(--card-bg);
+    padding: 12px 10px;
+    min-height: 80px;
+    position: relative;
+    cursor: default;
+    transition: background 0.15s;
+  }
+
+  .cal-cell:hover { background: #181410; }
+
+  .cal-day {
+    font-size: 9px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .cal-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .cal-title {
+    font-size: 10px;
+    color: var(--cream);
+    line-height: 1.4;
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+  }
+
+  .cal-format {
+    display: inline-block;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--amber-dim);
+    padding: 2px 6px;
+    margin-top: 6px;
+  }
+
+  .cal-format.demo { background: #4CAF7D; }
+  .cal-format.list { background: #5B9BD5; }
+  .cal-format.reveal { background: #D93B2A; }
+  .cal-format.replace { background: #9B6B9B; }
+
+  .week-label {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin: 16px 0 8px;
+  }
+
+  /* FORMAT LEGEND */
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 1px;
+    flex-shrink: 0;
+  }
+
+  /* SCRIPT CARDS */
+  .script-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    margin-bottom: 20px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .script-header {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .script-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: rgba(232,160,32,0.15);
+    line-height: 1;
+    padding: 14px 20px 14px 18px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    min-width: 72px;
+    justify-content: center;
+  }
+
+  .script-meta {
+    padding: 14px 18px;
+    flex: 1;
+  }
+
+  .script-hook {
+    font-family: 'Instrument Serif', serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--off-white);
+    margin-bottom: 6px;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .script-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  .tag.tool { border-color: var(--amber-dim); color: var(--amber); }
+  .tag.fmt-demo { border-color: #4CAF7D; color: #4CAF7D; }
+  .tag.fmt-list { border-color: #5B9BD5; color: #5B9BD5; }
+  .tag.fmt-reveal { border-color: #D93B2A; color: #D93B2A; }
+  .tag.fmt-replace { border-color: #9B6B9B; color: #9B6B9B; }
+
+  .script-body {
+    padding: 20px 24px;
+  }
+
+  .scene {
+    margin-bottom: 16px;
+    padding-left: 14px;
+    border-left: 2px solid var(--border);
+  }
+
+  .scene:last-child { margin-bottom: 0; }
+
+  .scene-label {
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 5px;
+  }
+
+  .scene-time {
+    font-size: 8px;
+    color: var(--muted);
+    margin-left: 8px;
+  }
+
+  .scene-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 15px;
+    color: var(--cream);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .scene-note {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  .script-footer {
+    border-top: 1px solid var(--border);
+    padding: 10px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .script-footer .wc {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .script-footer .cta-preview {
+    font-size: 10px;
+    color: var(--amber-dim);
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+  }
+
+  /* INTRO CALLOUT */
+  .big-callout {
+    border-left: 3px solid var(--amber);
+    background: var(--card-bg);
+    padding: 22px 28px;
+    margin: 0 0 36px;
+  }
+  .big-callout .callout-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .big-callout p {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--off-white);
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-note { font-size: 10px; color: var(--muted); letter-spacing: 0.1em; }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--border); letter-spacing: 0.1em; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 32px 18px 60px; }
+    .calendar-grid { grid-template-columns: repeat(2, 1fr); }
+    .masthead { flex-direction: column; }
+    .masthead-right { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div>
+      <div class="issue-label">▸ Quinn AI Channel — Scripts & Calendar — Vol. 02</div>
+      <h1>20 SCRIPTS<br>& <em>CONTENT</em><br>CALENDAR</h1>
+    </div>
+    <div class="masthead-right">
+      MARCH 2026<br>
+      WEEKS 1–4<br>
+      5 VIDEOS/WEEK<br>
+      QUINN · @AIwithQuinn<br>
+      ↓
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="big-callout">
+    <div class="callout-label">Production Notes</div>
+    <p>Four formats rotate across 4 weeks. Each Short targets 38–52 seconds, under 120 words. Hook is always the result first — never the setup. Quinn's closing question changes every video to maximize comment variety and signal diversity to the algorithm.</p>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="section-label">Format Legend</div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#4CAF7D"></div>Demo — show the tool in action</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#5B9BD5"></div>List — ranked tools or tips</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#D93B2A"></div>Reveal — "most people don't know..."</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#9B6B9B"></div>Replace — "I replaced X with AI"</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- CONTENT CALENDAR -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="section-label">01 — Content Calendar</div>
+
+  <div class="week-label">Week 1 — March 17–21</div>
+  <div class="calendar-grid">
+    <div class="cal-header">Mon 17</div>
+    <div class="cal-header">Tue 18</div>
+    <div class="cal-header">Wed 19</div>
+    <div class="cal-header">Thu 20</div>
+    <div class="cal-header">Fri 21</div>
+    <div class="cal-cell">
+      <div class="cal-num">01</div>
+      <div class="cal-title">"This AI writes better emails than I do"</div>
+      <span class="cal-format demo">Demo</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">02</div>
+      <div class="cal-title">"5 AI tools replacing your morning routine"</div>
+      <span class="cal-format list">List</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">03</div>
+      <div class="cal-title">"Most people don't know ChatGPT can do this"</div>
+      <span class="cal-format reveal">Reveal</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">04</div>
+      <div class="cal-title">"I replaced Google search with AI for 30 days"</div>
+      <span class="cal-format replace">Replace</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">05</div>
+      <div class="cal-title">"Turn a 1-hour meeting into a 3-min doc"</div>
+      <span class="cal-format demo">Demo</span>
+    </div>
+  </div>
+
+  <div class="week-label">Week 2 — March 24–28</div>
+  <div class="calendar-grid">
+    <div class="cal-header">Mon 24</div>
+    <div class="cal-header">Tue 25</div>
+    <div class="cal-header">Wed 26</div>
+    <div class="cal-header">Thu 27</div>
+    <div class="cal-header">Fri 28</div>
+    <div class="cal-cell">
+      <div class="cal-num">06</div>
+      <div class="cal-title">"3 AI tools that make you look 10× more professional"</div>
+      <span class="cal-format list">List</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">07</div>
+      <div class="cal-title">"This free tool writes your LinkedIn posts in seconds"</div>
+      <span class="cal-format demo">Demo</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">08</div>
+      <div class="cal-title">"Most freelancers charge by the hour. This AI changed that."</div>
+      <span class="cal-format reveal">Reveal</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">09</div>
+      <div class="cal-title">"I replaced my to-do app with AI — here's what happened"</div>
+      <span class="cal-format replace">Replace</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">10</div>
+      <div class="cal-title">"The AI prompt that saves me 3 hours every week"</div>
+      <span class="cal-format demo">Demo</span>
+    </div>
+  </div>
+
+  <div class="week-label">Week 3 — March 31 – April 4</div>
+  <div class="calendar-grid">
+    <div class="cal-header">Mon 31</div>
+    <div class="cal-header">Tue 1</div>
+    <div class="cal-header">Wed 2</div>
+    <div class="cal-header">Thu 3</div>
+    <div class="cal-header">Fri 4</div>
+    <div class="cal-cell">
+      <div class="cal-num">11</div>
+      <div class="cal-title">"5 AI tools for anyone who hates writing"</div>
+      <span class="cal-format list">List</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">12</div>
+      <div class="cal-title">"This AI reads any PDF and answers your questions"</div>
+      <span class="cal-format demo">Demo</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">13</div>
+      <div class="cal-title">"You're using ChatGPT wrong. Here's the fix."</div>
+      <span class="cal-format reveal">Reveal</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">14</div>
+      <div class="cal-title">"I replaced my graphic designer with Canva AI for a month"</div>
+      <span class="cal-format replace">Replace</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">15</div>
+      <div class="cal-title">"Generate a full week of social content in 10 minutes"</div>
+      <span class="cal-format demo">Demo</span>
+    </div>
+  </div>
+
+  <div class="week-label">Week 4 — April 7–11</div>
+  <div class="calendar-grid">
+    <div class="cal-header">Mon 7</div>
+    <div class="cal-header">Tue 8</div>
+    <div class="cal-header">Wed 9</div>
+    <div class="cal-header">Thu 10</div>
+    <div class="cal-header">Fri 11</div>
+    <div class="cal-cell">
+      <div class="cal-num">16</div>
+      <div class="cal-title">"3 AI tools that saved my small business real money"</div>
+      <span class="cal-format list">List</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">17</div>
+      <div class="cal-title">"This AI writes cold outreach that actually gets replies"</div>
+      <span class="cal-format demo">Demo</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">18</div>
+      <div class="cal-title">"The AI feature inside Google Docs nobody talks about"</div>
+      <span class="cal-format reveal">Reveal</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">19</div>
+      <div class="cal-title">"I replaced my spreadsheets with AI for two weeks"</div>
+      <span class="cal-format replace">Replace</span>
+    </div>
+    <div class="cal-cell">
+      <div class="cal-num">20</div>
+      <div class="cal-title">"The one AI workflow that changed how I work forever"</div>
+      <span class="cal-format demo">Demo</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════════════ -->
+  <!-- SCRIPTS -->
+  <!-- ═══════════════════════════════════════ -->
+  <div class="section-label">02 — Full Scripts</div>
+
+  <!-- S01 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">01</div>
+      <div class="script-meta">
+        <div class="script-hook">"This AI writes better emails than I do — and it's free."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT</span>
+          <span class="tag fmt-demo">Demo</span>
+          <span class="tag">45 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"This AI writes better emails than I do. And it's completely free."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Problem <span class="scene-time">3–10 sec</span></div>
+        <div class="scene-text">"Most people spend 20 minutes on a single email. Choosing words. Second-guessing the tone. Rewriting the opening three times."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Solution <span class="scene-time">10–28 sec</span></div>
+        <div class="scene-text">"Here's what I do instead. I open ChatGPT and type: 'Write a professional but warm email to my client explaining a project delay. Keep it under 5 lines. End with a clear next step.' Done. First draft in four seconds. Better than anything I'd write stressed at 9am."</div>
+        <div class="scene-note">↳ Show on-screen text overlay of the exact prompt</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Proof <span class="scene-time">28–38 sec</span></div>
+        <div class="scene-text">"I've used this for cold outreach, follow-ups, even difficult feedback emails. Every single time — cleaner, faster, less anxiety."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">38–45 sec</span></div>
+        <div class="scene-text">"Save this. You'll need it tomorrow. What's the email you hate writing most?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~105 words</span>
+      <span class="cta-preview">CTA: "What email do you hate writing most?"</span>
+    </div>
+  </div>
+
+  <!-- S02 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">02</div>
+      <div class="script-meta">
+        <div class="script-hook">"5 AI tools replacing your morning routine."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT · Notion AI · Reclaim.ai</span>
+          <span class="tag fmt-list">List</span>
+          <span class="tag">50 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"Your morning routine is taking twice as long as it needs to. Here are 5 AI tools fixing that."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">List <span class="scene-time">3–40 sec</span></div>
+        <div class="scene-text">"One — Reclaim.ai auto-schedules your day around your energy levels. Two — Notion AI turns your messy notes into a clean action list overnight. Three — ChatGPT writes your daily priority brief in 10 seconds. Four — Otter.ai transcribes your voice memos while you commute. Five — Motion reschedules your entire calendar when something urgent drops."</div>
+        <div class="scene-note">↳ Flash each tool name as on-screen text as Quinn says it</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">40–50 sec</span></div>
+        <div class="scene-text">"Which one are you trying first? Drop it below — I read every comment."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~110 words</span>
+      <span class="cta-preview">CTA: "Which one are you trying first?"</span>
+    </div>
+  </div>
+
+  <!-- S03 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">03</div>
+      <div class="script-meta">
+        <div class="script-hook">"Most people don't know ChatGPT can do this."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT</span>
+          <span class="tag fmt-reveal">Reveal</span>
+          <span class="tag">42 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"Most people don't know ChatGPT can do this — and it changes everything."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Reveal <span class="scene-time">3–25 sec</span></div>
+        <div class="scene-text">"You can upload any document — a contract, a report, a CV — and ask it questions in plain English. 'What are the key risks in this contract?' 'Summarize this 40-page report in 5 bullet points.' 'What's missing from this CV?' It reads, analyzes, and answers. Instantly."</div>
+        <div class="scene-note">↳ Screen record or animated mockup of the upload interaction</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Impact <span class="scene-time">25–38 sec</span></div>
+        <div class="scene-text">"I used this to review a supplier contract last week. Spotted a clause that would have cost me. In 30 seconds."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">38–42 sec</span></div>
+        <div class="scene-text">"What document would you upload first?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~100 words</span>
+      <span class="cta-preview">CTA: "What document would you upload first?"</span>
+    </div>
+  </div>
+
+  <!-- S04 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">04</div>
+      <div class="script-meta">
+        <div class="script-hook">"I replaced Google search with AI for 30 days."</div>
+        <div class="script-tags">
+          <span class="tag tool">Perplexity AI</span>
+          <span class="tag fmt-replace">Replace</span>
+          <span class="tag">48 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–4 sec</span></div>
+        <div class="scene-text">"I stopped using Google for 30 days. Used AI instead. Here's what I found out."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Tool intro <span class="scene-time">4–18 sec</span></div>
+        <div class="scene-text">"The tool is Perplexity AI. You ask a question, it searches the web in real time and gives you a direct answer — with sources. No ads. No ten blue links to click through. Just the answer."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Result <span class="scene-time">18–38 sec</span></div>
+        <div class="scene-text">"I used it for research, comparisons, technical questions. It was faster every single time. The only thing Google still wins at? Finding specific websites I already know exist. Everything else — Perplexity."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">38–48 sec</span></div>
+        <div class="scene-text">"Try it for one day. Tell me if you go back to Google."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~108 words</span>
+      <span class="cta-preview">CTA: "Tell me if you go back to Google."</span>
+    </div>
+  </div>
+
+  <!-- S05 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">05</div>
+      <div class="script-meta">
+        <div class="script-hook">"I turned a 1-hour meeting into a 3-minute document."</div>
+        <div class="script-tags">
+          <span class="tag tool">Otter.ai</span>
+          <span class="tag fmt-demo">Demo</span>
+          <span class="tag">46 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"I turned a one-hour meeting into a three-minute document. With one click."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Demo <span class="scene-time">3–30 sec</span></div>
+        <div class="scene-text">"The tool is Otter.ai. You run it in the background during any call — Zoom, Meet, Teams, doesn't matter. When the meeting ends, it gives you a full transcript, an AI summary, and a list of action items with who said what. The whole thing takes about 90 seconds to process."</div>
+        <div class="scene-note">↳ Show Otter.ai summary screenshot as overlay</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Payoff <span class="scene-time">30–42 sec</span></div>
+        <div class="scene-text">"I send the summary to the team instead of writing notes. Nobody misses anything. Nobody asks 'wait, what did we decide?' anymore."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">42–46 sec</span></div>
+        <div class="scene-text">"How many meetings do you have this week?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~107 words</span>
+      <span class="cta-preview">CTA: "How many meetings do you have this week?"</span>
+    </div>
+  </div>
+
+  <!-- S06 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">06</div>
+      <div class="script-meta">
+        <div class="script-hook">"3 AI tools that make you look 10× more professional."</div>
+        <div class="script-tags">
+          <span class="tag tool">Grammarly · Gamma · Beautiful.ai</span>
+          <span class="tag fmt-list">List</span>
+          <span class="tag">48 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"Three AI tools that will make everything you produce look ten times more professional. Starting now."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">List <span class="scene-time">3–38 sec</span></div>
+        <div class="scene-text">"One — Grammarly AI. Not just spelling. It rewrites your sentences for clarity and tone. In real time, everywhere you type. Two — Gamma. You type a topic, it builds a beautiful presentation in 60 seconds. No design skills needed. Three — Beautiful.ai. Same idea, even more polished. Your slides will look like a design agency made them. They didn't."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">38–48 sec</span></div>
+        <div class="scene-text">"Save this for your next presentation. Which one are you most surprised by?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~105 words</span>
+      <span class="cta-preview">CTA: "Which one are you most surprised by?"</span>
+    </div>
+  </div>
+
+  <!-- S07 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">07</div>
+      <div class="script-meta">
+        <div class="script-hook">"This free tool writes your LinkedIn posts in seconds."</div>
+        <div class="script-tags">
+          <span class="tag tool">Taplio / ChatGPT</span>
+          <span class="tag fmt-demo">Demo</span>
+          <span class="tag">44 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"This tool writes your LinkedIn posts in seconds. And the engagement is real."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Problem <span class="scene-time">3–12 sec</span></div>
+        <div class="scene-text">"Most people know they should post on LinkedIn. Almost nobody does. Because staring at a blank box after a full day of work is exhausting."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Demo <span class="scene-time">12–34 sec</span></div>
+        <div class="scene-text">"Here's the prompt I use in ChatGPT: 'Write a LinkedIn post about [one thing I learned this week]. Make it conversational, under 150 words, end with a question.' Paste. Edit one line to make it sound like you. Post. Done in under 3 minutes."</div>
+        <div class="scene-note">↳ Show prompt on screen, then a finished post example</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">34–44 sec</span></div>
+        <div class="scene-text">"What did you learn this week? That's your next post."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~103 words</span>
+      <span class="cta-preview">CTA: "What did you learn this week?"</span>
+    </div>
+  </div>
+
+  <!-- S08 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">08</div>
+      <div class="script-meta">
+        <div class="script-hook">"Most freelancers charge by the hour. This AI changed that."</div>
+        <div class="script-tags">
+          <span class="tag tool">Bonsai AI · Proposify</span>
+          <span class="tag fmt-reveal">Reveal</span>
+          <span class="tag">50 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–4 sec</span></div>
+        <div class="scene-text">"Most freelancers charge by the hour and leave money on the table. This AI tool is changing that."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Insight <span class="scene-time">4–22 sec</span></div>
+        <div class="scene-text">"The tool is Bonsai. It analyzes your project scope and suggests value-based pricing — what the outcome is worth to the client, not how long it takes you. It then writes the proposal automatically. Professional layout, clear deliverables, payment terms included."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Result <span class="scene-time">22–40 sec</span></div>
+        <div class="scene-text">"Freelancers using value-based pricing typically earn 30 to 50 percent more per project. The work is identical. The framing is everything. AI just makes the switch effortless."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">40–50 sec</span></div>
+        <div class="scene-text">"Are you charging by the hour right now? Tell me below."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~112 words</span>
+      <span class="cta-preview">CTA: "Are you charging by the hour right now?"</span>
+    </div>
+  </div>
+
+  <!-- S09 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">09</div>
+      <div class="script-meta">
+        <div class="script-hook">"I replaced my to-do app with AI — here's what happened."</div>
+        <div class="script-tags">
+          <span class="tag tool">Motion · Reclaim.ai</span>
+          <span class="tag fmt-replace">Replace</span>
+          <span class="tag">46 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–4 sec</span></div>
+        <div class="scene-text">"I deleted my to-do app two months ago. Replaced it with AI. Here's what actually happened."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The tool <span class="scene-time">4–24 sec</span></div>
+        <div class="scene-text">"Motion is an AI calendar that schedules your tasks for you. You add what needs doing and the deadline. It finds the slot. When something urgent comes in, it reshuffles everything automatically. No manual planning. No Sunday evening dread staring at a backlog."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Honest take <span class="scene-time">24–40 sec</span></div>
+        <div class="scene-text">"Does it work? Mostly yes. The first week felt weird — surrendering control. By week two I stopped thinking about planning entirely. That's the point."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">40–46 sec</span></div>
+        <div class="scene-text">"Would you trust an AI to plan your day? Be honest."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~109 words</span>
+      <span class="cta-preview">CTA: "Would you trust an AI to plan your day?"</span>
+    </div>
+  </div>
+
+  <!-- S10 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">10</div>
+      <div class="script-meta">
+        <div class="script-hook">"The AI prompt that saves me 3 hours every week."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT</span>
+          <span class="tag fmt-demo">Demo</span>
+          <span class="tag">44 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"One AI prompt saves me three hours every single week. Here it is."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The prompt <span class="scene-time">3–28 sec</span></div>
+        <div class="scene-text">"'You are my chief of staff. Every Monday morning I'll give you my goals for the week and my constraints — meetings, deadlines, energy levels. Give me a prioritized daily plan, flag anything I should delegate or drop, and tell me the one thing that matters most today.' That's it. Run this every Monday. Your week becomes intentional instead of reactive."</div>
+        <div class="scene-note">↳ Show the full prompt text on screen — make it screenshottable</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">28–44 sec</span></div>
+        <div class="scene-text">"Save this. Try it this Monday. Tell me how it went."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~100 words</span>
+      <span class="cta-preview">CTA: "Try it this Monday. Tell me how it went."</span>
+    </div>
+  </div>
+
+  <!-- S11 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">11</div>
+      <div class="script-meta">
+        <div class="script-hook">"5 AI tools for anyone who hates writing."</div>
+        <div class="script-tags">
+          <span class="tag tool">Jasper · Copy.ai · Hemingway · Notion AI · Grammarly</span>
+          <span class="tag fmt-list">List</span>
+          <span class="tag">50 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"If you hate writing, these five AI tools are going to feel like cheating."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">List <span class="scene-time">3–42 sec</span></div>
+        <div class="scene-text">"One — Notion AI. Turns bullet points into full paragraphs. Two — Grammarly. Makes everything you write clearer in real time. Three — Hemingway App. Flags sentences that are too complicated and fixes them. Four — Copy.ai. Writes marketing copy from a one-line brief. Five — Jasper. Full blog posts, emails, reports — from a short description. You bring the idea. These tools bring the words."</div>
+        <div class="scene-note">↳ One-second flash of each tool's logo or UI as it's mentioned</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">42–50 sec</span></div>
+        <div class="scene-text">"Which type of writing do you avoid the most?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~107 words</span>
+      <span class="cta-preview">CTA: "Which type of writing do you avoid the most?"</span>
+    </div>
+  </div>
+
+  <!-- S12 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">12</div>
+      <div class="script-meta">
+        <div class="script-hook">"This AI reads any PDF and answers your questions."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatPDF · Claude</span>
+          <span class="tag fmt-demo">Demo</span>
+          <span class="tag">44 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"This AI reads any PDF and answers your questions about it. Instantly."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Demo <span class="scene-time">3–30 sec</span></div>
+        <div class="scene-text">"Upload your PDF to ChatPDF — could be a contract, a research paper, a company report, anything. Then just ask it questions in plain English. 'What are the main conclusions?' 'Are there any penalties in this contract?' 'Explain section 4 in simple terms.' It finds the answer in seconds. With the exact page reference."</div>
+        <div class="scene-note">↳ Animate the upload + question + answer flow on screen</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">30–44 sec</span></div>
+        <div class="scene-text">"Think about the last PDF you had to read. This tool just gave you that hour back. What would you upload?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~103 words</span>
+      <span class="cta-preview">CTA: "What would you upload?"</span>
+    </div>
+  </div>
+
+  <!-- S13 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">13</div>
+      <div class="script-meta">
+        <div class="script-hook">"You're using ChatGPT wrong. Here's the fix."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT</span>
+          <span class="tag fmt-reveal">Reveal</span>
+          <span class="tag">46 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"You're using ChatGPT wrong. And it's costing you the best results."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The mistake <span class="scene-time">3–18 sec</span></div>
+        <div class="scene-text">"Most people type a short question and accept whatever comes back. That's like asking an expert for help and walking away before they finish the sentence."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The fix <span class="scene-time">18–38 sec</span></div>
+        <div class="scene-text">"The fix is context. Tell it who you are. Tell it who the output is for. Tell it the format you need. 'I'm a freelance designer. Write a project proposal for a small business client. Professional tone, under 200 words, structured with three sections.' That's a completely different result."</div>
+        <div class="scene-note">↳ Show bad prompt vs good prompt side by side</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">38–46 sec</span></div>
+        <div class="scene-text">"Try it right now. Tell me what changed."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~106 words</span>
+      <span class="cta-preview">CTA: "Try it right now. Tell me what changed."</span>
+    </div>
+  </div>
+
+  <!-- S14 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">14</div>
+      <div class="script-meta">
+        <div class="script-hook">"I replaced my graphic designer with Canva AI for a month."</div>
+        <div class="script-tags">
+          <span class="tag tool">Canva AI</span>
+          <span class="tag fmt-replace">Replace</span>
+          <span class="tag">50 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–4 sec</span></div>
+        <div class="scene-text">"I stopped using a graphic designer for a month. Used Canva AI instead. Honest review."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">What it does <span class="scene-time">4–22 sec</span></div>
+        <div class="scene-text">"Canva's AI can now generate images, resize designs for every platform in one click, write copy directly into templates, and build brand kits automatically. Things that used to take a briefing call, two revision rounds, and three days — now take 20 minutes."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Honest verdict <span class="scene-time">22–42 sec</span></div>
+        <div class="scene-text">"Does it replace a great designer? No. Does it replace the routine design work that doesn't need creativity? Completely. I used it for social graphics, presentations, and internal documents. Saved real money. Zero quality complaints."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">42–50 sec</span></div>
+        <div class="scene-text">"What design task costs you the most time right now?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~112 words</span>
+      <span class="cta-preview">CTA: "What design task costs you the most time?"</span>
+    </div>
+  </div>
+
+  <!-- S15 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">15</div>
+      <div class="script-meta">
+        <div class="script-hook">"Generate a full week of social content in 10 minutes."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT · Buffer AI</span>
+          <span class="tag fmt-demo">Demo</span>
+          <span class="tag">48 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"A full week of social media content. Generated in 10 minutes. Here's the exact process."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The workflow <span class="scene-time">3–36 sec</span></div>
+        <div class="scene-text">"Step one — open ChatGPT. Prompt: 'I run a [type of business]. Create 5 social posts for this week: one tip, one question, one behind-the-scenes, one client result, one motivational. Keep each under 100 words. Conversational tone.' Step two — paste the results into Buffer. Schedule them across the week. Step three — done. Your entire social presence, automated before your first coffee."</div>
+        <div class="scene-note">↳ Show the prompt + Buffer scheduling UI as visual overlay</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">36–48 sec</span></div>
+        <div class="scene-text">"What type of business do you run? I'll write your prompt right now in the comments."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~110 words</span>
+      <span class="cta-preview">CTA: "Tell me your business — I'll write your prompt."</span>
+    </div>
+  </div>
+
+  <!-- S16 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">16</div>
+      <div class="script-meta">
+        <div class="script-hook">"3 AI tools that saved my small business real money."</div>
+        <div class="script-tags">
+          <span class="tag tool">Fireflies · Tidio · Durable</span>
+          <span class="tag fmt-list">List</span>
+          <span class="tag">50 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"Three AI tools that saved my small business actual money. Not just time — money."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">List <span class="scene-time">3–40 sec</span></div>
+        <div class="scene-text">"One — Fireflies.ai. Replaced my note-taker and meeting follow-up costs entirely. Automatic transcripts, summaries, action items. Two — Tidio. AI customer support chatbot. Handles 60 percent of incoming questions without a human. Three — Durable. Replaced a web agency for my landing page. AI built it in 30 seconds. Looks professional. Costs next to nothing."</div>
+        <div class="scene-note">↳ Quick logo flash for each tool</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">40–50 sec</span></div>
+        <div class="scene-text">"Which business cost would you most like to cut? Let me find you a tool."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~105 words</span>
+      <span class="cta-preview">CTA: "Which cost would you most like to cut?"</span>
+    </div>
+  </div>
+
+  <!-- S17 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">17</div>
+      <div class="script-meta">
+        <div class="script-hook">"This AI writes cold outreach that actually gets replies."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT · Apollo.io</span>
+          <span class="tag fmt-demo">Demo</span>
+          <span class="tag">46 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"This AI writes cold outreach that actually gets replies. And I can prove it."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The problem <span class="scene-time">3–14 sec</span></div>
+        <div class="scene-text">"Most cold emails fail because they're about you, not them. AI fixes this by forcing you to lead with their problem."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The prompt <span class="scene-time">14–36 sec</span></div>
+        <div class="scene-text">"Prompt: 'Write a cold email to a [job title] at a [type of company]. Their main pain point is [X]. I offer [solution]. Keep it under 5 lines, no buzzwords, end with one specific question — not a call request.' That structure. Every time. Reply rates double."</div>
+        <div class="scene-note">↳ Show example output email on screen</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">36–46 sec</span></div>
+        <div class="scene-text">"Who are you trying to reach? Drop it below."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~104 words</span>
+      <span class="cta-preview">CTA: "Who are you trying to reach?"</span>
+    </div>
+  </div>
+
+  <!-- S18 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">18</div>
+      <div class="script-meta">
+        <div class="script-hook">"The AI feature inside Google Docs nobody talks about."</div>
+        <div class="script-tags">
+          <span class="tag tool">Google Docs AI (Gemini)</span>
+          <span class="tag fmt-reveal">Reveal</span>
+          <span class="tag">44 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–3 sec</span></div>
+        <div class="scene-text">"There's an AI feature inside Google Docs that almost nobody is using. And it's already included in your plan."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Reveal <span class="scene-time">3–30 sec</span></div>
+        <div class="scene-text">"Click the Gemini icon in the top right of any Google Doc. You can now ask it to summarize what you've written, suggest edits, continue a draft, or rewrite a section in a different tone — all without leaving the document. It reads your existing content and works with it. Not instead of it."</div>
+        <div class="scene-note">↳ Screen recording of the Gemini sidebar in Google Docs</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">30–44 sec</span></div>
+        <div class="scene-text">"Open a Google Doc right now and try it. What are you working on?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~100 words</span>
+      <span class="cta-preview">CTA: "What are you working on?"</span>
+    </div>
+  </div>
+
+  <!-- S19 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">19</div>
+      <div class="script-meta">
+        <div class="script-hook">"I replaced my spreadsheets with AI for two weeks."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT · Julius AI</span>
+          <span class="tag fmt-replace">Replace</span>
+          <span class="tag">48 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–4 sec</span></div>
+        <div class="scene-text">"I stopped using spreadsheets for two weeks. Used AI to analyze my data instead. Here's what I found."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The tool <span class="scene-time">4–24 sec</span></div>
+        <div class="scene-text">"Julius AI lets you upload any spreadsheet and ask questions in plain English. 'What's my best-performing product?' 'Show me revenue trends over the last 90 days.' 'Which clients haven't ordered in 60 days?' It builds the charts. It writes the analysis. No formulas."</div>
+        <div class="scene-note">↳ Show a Julius AI chart output on screen</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Verdict <span class="scene-time">24–40 sec</span></div>
+        <div class="scene-text">"For routine reporting? Completely replaced my sheets. For complex financial modeling? I went back to Excel. But 80 percent of what I was doing in spreadsheets? Gone."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">40–48 sec</span></div>
+        <div class="scene-text">"What data are you sitting on that you never actually analyze?"</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~110 words</span>
+      <span class="cta-preview">CTA: "What data are you never analyzing?"</span>
+    </div>
+  </div>
+
+  <!-- S20 -->
+  <div class="script-card">
+    <div class="script-header">
+      <div class="script-num">20</div>
+      <div class="script-meta">
+        <div class="script-hook">"The one AI workflow that changed how I work forever."</div>
+        <div class="script-tags">
+          <span class="tag tool">ChatGPT · Notion · Otter.ai</span>
+          <span class="tag fmt-demo">Demo</span>
+          <span class="tag">52 sec</span>
+        </div>
+      </div>
+    </div>
+    <div class="script-body">
+      <div class="scene">
+        <div class="scene-label">Hook <span class="scene-time">0–4 sec</span></div>
+        <div class="scene-text">"After four weeks of testing AI tools, one workflow changed everything. Here it is."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">The system <span class="scene-time">4–36 sec</span></div>
+        <div class="scene-text">"Monday — ChatGPT plans my week from a 3-line brief. During the week — Otter records every call and pulls the action items automatically. End of day — I voice-note my progress into Notion AI, which turns it into a structured update. Friday — ChatGPT writes my weekly review from my Notion notes. No manual admin. Fully documented. Always moving forward."</div>
+        <div class="scene-note">↳ Simple animated diagram showing the loop: Plan → Record → Update → Review</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">Closer <span class="scene-time">36–48 sec</span></div>
+        <div class="scene-text">"This isn't about working less. It's about never losing the thread. Every week builds on the last."</div>
+      </div>
+      <div class="scene">
+        <div class="scene-label">CTA <span class="scene-time">48–52 sec</span></div>
+        <div class="scene-text">"Which step would help you most? I'm building Vol. 2 from your answers."</div>
+      </div>
+    </div>
+    <div class="script-footer">
+      <span class="wc">~114 words</span>
+      <span class="cta-preview">CTA: "Which step helps you most? Building Vol. 2."</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-note">Quinn · @AIwithQuinn · Scripts Vol. 02 — Claude for Anthropic · March 2026</div>
+    <div class="footer-brand">BRIEF №02</div>
+  </div>
+
+</div>
+</body>
+</html>

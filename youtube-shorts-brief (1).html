@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube Shorts Strategy Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --off-white: #F2EDE6;
+    --cream: #E8E0D4;
+    --amber: #E8A020;
+    --amber-dim: #B87A10;
+    --red: #D93B2A;
+    --muted: #8A8070;
+    --border: #2A2520;
+    --card-bg: #111009;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    padding: 0;
+  }
+
+  /* GRID NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.018) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255,255,255,0.018) 40px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 40px 100px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .masthead {
+    border-top: 3px solid var(--amber);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 0 24px;
+    margin-bottom: 48px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .masthead-left { flex: 1; }
+
+  .issue-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 9vw, 88px);
+    line-height: 0.92;
+    letter-spacing: 0.01em;
+    color: var(--off-white);
+    text-transform: uppercase;
+  }
+
+  h1 em {
+    color: var(--amber);
+    font-style: normal;
+  }
+
+  .masthead-right {
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .date-stamp {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    line-height: 2;
+  }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.04em;
+    color: var(--off-white);
+    margin-bottom: 16px;
+  }
+
+  h3 {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--cream);
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+
+  p {
+    color: #BFB8AA;
+    margin-bottom: 12px;
+    font-size: 12.5px;
+  }
+
+  /* BIG CALLOUT */
+  .big-callout {
+    border-left: 3px solid var(--amber);
+    background: var(--card-bg);
+    padding: 24px 28px;
+    margin: 32px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .big-callout::before {
+    content: '★';
+    position: absolute;
+    right: 20px;
+    top: 16px;
+    font-size: 48px;
+    color: rgba(232,160,32,0.07);
+    font-family: 'Bebas Neue';
+  }
+  .big-callout .callout-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .big-callout .callout-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--off-white);
+    line-height: 1.4;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  /* METRICS GRID */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    margin: 24px 0 36px;
+    border: 1px solid var(--border);
+  }
+
+  .metric-cell {
+    background: var(--card-bg);
+    padding: 20px 18px;
+  }
+
+  .metric-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+
+  .metric-label {
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* SECTION DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 44px 0;
+  }
+
+  /* NICHE CARD */
+  .niche-winner {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--amber);
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+
+  .niche-winner .niche-tag {
+    display: inline-block;
+    background: var(--amber);
+    color: var(--black);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    margin-bottom: 14px;
+    font-weight: 500;
+  }
+
+  .niche-winner h2 {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  /* PILL TAGS */
+  .pill-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .pill {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 4px 12px;
+    color: var(--muted);
+  }
+
+  .pill.hot {
+    border-color: var(--amber-dim);
+    color: var(--amber);
+    background: rgba(232,160,32,0.06);
+  }
+
+  /* CONTENT STRATEGY TABLE */
+  .strategy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  .strategy-table th {
+    text-align: left;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 0 8px;
+    font-weight: 500;
+  }
+  .strategy-table td {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(42,37,32,0.6);
+    vertical-align: top;
+    color: #BFB8AA;
+    font-size: 12px;
+  }
+  .strategy-table td:first-child {
+    color: var(--off-white);
+    width: 36%;
+    padding-right: 20px;
+  }
+  .strategy-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* THE PROMPT BOX */
+  .prompt-box {
+    background: #0D0B08;
+    border: 1px solid var(--amber-dim);
+    position: relative;
+    margin: 28px 0;
+  }
+
+  .prompt-box-header {
+    background: var(--amber);
+    padding: 8px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .prompt-box-header span {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--black);
+    font-weight: 500;
+  }
+
+  .prompt-box-body {
+    padding: 24px 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    color: #C8C0B0;
+    white-space: pre-wrap;
+  }
+
+  .prompt-highlight {
+    color: var(--amber);
+    font-style: italic;
+  }
+
+  .prompt-field {
+    color: #E8E0D4;
+    font-weight: 500;
+  }
+
+  /* SERIES FORMAT */
+  .format-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  .format-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    padding: 18px;
+  }
+
+  .format-card .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: rgba(232,160,32,0.2);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .format-card .title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 16px;
+    font-style: italic;
+    color: var(--off-white);
+    margin-bottom: 6px;
+  }
+
+  .format-card p {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* GROWTH TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 24px;
+    margin: 20px 0;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    bottom: 6px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 24px;
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -21px;
+    top: 5px;
+    width: 7px;
+    height: 7px;
+    background: var(--amber);
+    border-radius: 50%;
+  }
+
+  .timeline-item .phase {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+
+  .timeline-item .phase-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--off-white);
+    margin-bottom: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .timeline-item p {
+    font-size: 11.5px;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* RED ALERT BOX */
+  .alert-box {
+    border: 1px solid rgba(217,59,42,0.4);
+    background: rgba(217,59,42,0.05);
+    padding: 16px 20px;
+    margin: 24px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .alert-icon {
+    color: var(--red);
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .alert-text {
+    font-size: 12px;
+    color: #C0A8A0;
+    margin: 0;
+  }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-note {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: var(--border);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .masthead { animation: fadeUp 0.5s ease both; }
+  .big-callout { animation: fadeUp 0.5s 0.1s ease both; }
+  .niche-winner { animation: fadeUp 0.5s 0.15s ease both; }
+
+  /* COPY BUTTON */
+  .copy-btn {
+    background: var(--black);
+    border: 1px solid rgba(232,160,32,0.4);
+    color: var(--amber);
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .copy-btn:hover {
+    background: var(--amber);
+    color: var(--black);
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 32px 20px 60px; }
+    .metrics-grid { grid-template-columns: 1fr 1fr; }
+    .format-grid { grid-template-columns: 1fr; }
+    .masthead { flex-direction: column; }
+    .masthead-right { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="masthead-left">
+      <div class="issue-label">▸ YouTube Shorts Strategy Brief — Vol. 01</div>
+      <h1>AI TOOLS<br>THAT <em>PAY</em><br>YOU BACK</h1>
+    </div>
+    <div class="masthead-right">
+      <div class="date-stamp">
+        MARCH 2026<br>
+        HEYGEN AVATAR<br>
+        PROMPT INSIDE<br>
+        ↓
+      </div>
+    </div>
+  </div>
+
+  <!-- WHY THIS NICHE -->
+  <div class="section-label">01 — The Opportunity</div>
+
+  <div class="big-callout">
+    <div class="callout-label">Strategic Verdict</div>
+    <p class="callout-text">"AI Productivity & Tools" is the highest-growth, highest-CPM, lowest-saturation niche available to a tech-fluent creator right now.</p>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-cell">
+      <div class="metric-value">18×</div>
+      <div class="metric-label">YoY growth in<br>AI tutorial niche</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-value">$22</div>
+      <div class="metric-label">Max CPM in<br>AI/Tech category</div>
+    </div>
+    <div class="metric-cell">
+      <div class="metric-value">$4.50</div>
+      <div class="metric-label">Highest Shorts CPM<br>(Finance/AI hybrid)</div>
+    </div>
+  </div>
+
+  <p>New AI tools launch every week, creating <strong>endless content supply</strong>. Software companies pay premium ad rates because their CAC is high — that flows directly into your CPM. The format is perfect for Shorts: fast demos, before/after reveals, productivity hacks. The sentiment naturally skews positive because you're helping people save time and make money.</p>
+
+  <hr class="divider">
+
+  <!-- THE NICHE -->
+  <div class="section-label">02 — Your Niche</div>
+
+  <div class="niche-winner">
+    <div class="niche-tag">★ Recommended Channel Concept</div>
+    <h2>AI TOOLS THAT MAKE YOU MORE MONEY</h2>
+    <h3>Practical AI for productivity, income, and career leverage</h3>
+
+    <p>Every Short answers one question: <em>"What AI tool just made someone's life significantly better — and how can I use it?"</em> You're not a tech reviewer. You're a results translator. You show the output, not just the features.</p>
+
+    <div class="pill-row">
+      <span class="pill hot">High CPM</span>
+      <span class="pill hot">High Shareability</span>
+      <span class="pill hot">Evergreen + Trending</span>
+      <span class="pill">Positive Sentiment</span>
+      <span class="pill">Strong Affiliate Potential</span>
+      <span class="pill">Low Competition</span>
+    </div>
+
+    <p style="margin-top:8px; font-size:11.5px; color: var(--muted);">
+      Target audience: knowledge workers, freelancers, students, solopreneurs (25–44). High intent, high income. They share content that makes them look smart to their peers.
+    </p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CONTENT FORMATS -->
+  <div class="section-label">03 — Series Formats</div>
+  <p style="margin-bottom:20px;">Each Short must have a hook in 0–2 seconds. Pick one of these four proven structures and rotate between them to prevent fatigue:</p>
+
+  <div class="format-grid">
+    <div class="format-card">
+      <div class="num">01</div>
+      <div class="title">"This AI tool does X in 30 seconds"</div>
+      <p>Pure demo format. Show the problem, show the solution, show the result. No fluff. Insane watch time retention.</p>
+    </div>
+    <div class="format-card">
+      <div class="num">02</div>
+      <div class="title">"I replaced [software] with AI — here's what happened"</div>
+      <p>Controversy + transformation. Strong hook emotion: curiosity + FOMO. Comment magnets.</p>
+    </div>
+    <div class="format-card">
+      <div class="num">03</div>
+      <div class="title">"5 AI tools freelancers are using to 10× income"</div>
+      <p>List format. Best for saves and shares. People bookmark these. High RPM from sponsorship too.</p>
+    </div>
+    <div class="format-card">
+      <div class="num">04</div>
+      <div class="title">"Most people don't know ChatGPT can do this"</div>
+      <p>Revelation format. Triggers a "wait what?" reaction and immediate share impulse. Highest viral coefficient.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CONTENT STRATEGY -->
+  <div class="section-label">04 — Content Strategy</div>
+
+  <table class="strategy-table">
+    <tr>
+      <th>Dimension</th>
+      <th>Recommendation</th>
+    </tr>
+    <tr>
+      <td>Posting cadence</td>
+      <td>5× per week minimum for first 60 days. The algorithm rewards consistency over quality initially.</td>
+    </tr>
+    <tr>
+      <td>Optimal length</td>
+      <td>38–52 seconds. Long enough for retention signal, short enough for rewatch loops.</td>
+    </tr>
+    <tr>
+      <td>Hook structure</td>
+      <td>First frame = result, not setup. Show the "after" first, then explain how.</td>
+    </tr>
+    <tr>
+      <td>Engagement driver</td>
+      <td>End with a question: "Which of these do you already use?" drives comment velocity.</td>
+    </tr>
+    <tr>
+      <td>Sentiment control</td>
+      <td>Keep tone practical and warm — not hype, not academic. "Your smart friend explaining tools."</td>
+    </tr>
+    <tr>
+      <td>Monetization stack</td>
+      <td>YouTube Partner Program + AI tool affiliates (high ticket) + digital product (AI prompt packs, templates).</td>
+    </tr>
+  </table>
+
+  <hr class="divider">
+
+  <!-- GROWTH TIMELINE -->
+  <div class="section-label">05 — Growth Roadmap</div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="phase">Days 1–30</div>
+      <div class="phase-title">VOLUME PHASE</div>
+      <p>Post 5×/week. Test 4 formats. Don't optimize — just ship. Goal: 20 videos live, find your top 3 performers.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="phase">Days 31–60</div>
+      <div class="phase-title">DOUBLING DOWN</div>
+      <p>Replicate your top-performing format 3× per week. Begin thumbnail and hook A/B testing. Target 1K subscribers.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="phase">Days 61–90</div>
+      <div class="phase-title">MONETIZE & SCALE</div>
+      <p>Apply for YPP (1K subs / 10M Shorts views). First affiliate deal. Repurpose top Shorts into long-form for search traffic.</p>
+    </div>
+    <div class="timeline-item" style="padding-bottom:0">
+      <div class="phase">Month 4+</div>
+      <div class="phase-title">COMPOUND GROWTH</div>
+      <p>Shorts feed long-form. Long-form feeds watch time. Watch time feeds algorithm boost. Series brand identity solidifies.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- HEYGEN PROMPT -->
+  <div class="section-label">06 — HeyGen Avatar Prompt</div>
+
+  <p>Copy the prompt below directly into HeyGen's "Instant Avatar" or "AI Avatar" creation field. It's engineered for <strong>maximum trust, authority, and on-camera magnetism</strong> — the qualities that drive subscriptions in the AI education space.</p>
+
+  <div class="alert-box">
+    <span class="alert-icon">⚠</span>
+    <p class="alert-text"><strong style="color:#D9907A;">Before generating:</strong> In HeyGen, choose a well-lit, neutral background recording. Wear a plain dark or navy shirt — it reads as authority on-screen. Film at eye level with your face occupying the top 60% of the frame (ideal for Shorts vertical crop).</p>
+  </div>
+
+  <div class="prompt-box">
+    <div class="prompt-box-header">
+      <span>HeyGen Avatar Prompt — Copy This Exactly</span>
+      <button class="copy-btn" onclick="copyPrompt()">Copy ↗</button>
+    </div>
+    <div class="prompt-box-body" id="promptText"><span class="prompt-field">AVATAR PERSONALITY & STYLE PROMPT</span>
+
+<span class="prompt-highlight">— Visual Style —</span>
+Create a professional AI avatar that conveys calm authority and 
+modern expertise. The avatar should look like a knowledgeable tech 
+professional in their early-to-mid 30s — approachable but credible, 
+not corporate. Clean, minimal aesthetic. No heavy makeup, no overly 
+formal attire. Think: "smart colleague who always knows the best tool 
+for the job."
+
+<span class="prompt-highlight">— Expression & Energy —</span>
+Default expression: slightly engaged, slightly smiling — as if 
+mid-explanation of something genuinely interesting. Not excited. 
+Not stiff. The energy of someone who respects the viewer's time and 
+gets straight to value. Eye contact should feel direct and present.
+
+<span class="prompt-highlight">— Voice & Delivery Style —</span>
+Pace: Measured but not slow. 140–160 words per minute.
+Tone: Warm, clear, confident. No vocal fry. No upspeak.
+Energy: Consistent — never drops into monotone.
+Pauses: Short, intentional pauses before key insights (builds anticipation).
+
+<span class="prompt-highlight">— On-Screen Persona —</span>
+Name concept: [Your name] — "The AI Translator"
+Positioning line (use in channel bio): "I find the AI tools that 
+actually save you time and make you money — and show you exactly 
+how to use them."
+
+<span class="prompt-highlight">— Channel Brand Context —</span>
+Series name: "TOOL DROP" or "AI IN 60"
+Background style: Dark, minimal — deep navy or near-black. 
+Optional: subtle animated particle/dot grid backdrop for tech feel.
+Lower-third style: Amber/gold accent on black. Bebas Neue or 
+similar display font. Text: Tool name + one-line benefit.
+
+<span class="prompt-highlight">— Content Tone Instruction for Scripts —</span>
+Always open with the result, not the setup.
+BAD: "Today I'm going to show you a tool called Notion AI..."
+GOOD: "This saved me 4 hours last week — here's the tool."
+Close every Short with one question to the audience.
+Keep total word count under 120 words per Short.
+</div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SAMPLE SCRIPTS -->
+  <div class="section-label">07 — Sample First 3 Scripts</div>
+
+  <table class="strategy-table">
+    <tr>
+      <th>#</th>
+      <th>Hook (first 3 sec)</th>
+      <th>Tool / Topic</th>
+    </tr>
+    <tr>
+      <td>Short 01</td>
+      <td>"This AI writes better emails than I do — and it's free."</td>
+      <td>ChatGPT email assistant / Superhuman AI</td>
+    </tr>
+    <tr>
+      <td>Short 02</td>
+      <td>"I turned a 1-hour meeting into a 3-minute doc with one click."</td>
+      <td>Otter.ai / Fireflies.ai</td>
+    </tr>
+    <tr>
+      <td>Short 03</td>
+      <td>"Most freelancers charge by the hour. This AI tool changed that."</td>
+      <td>AI proposal generator / pricing tool</td>
+    </tr>
+  </table>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-note">Strategy Brief — Claude for Anthropic · March 2026</div>
+    <div class="footer-brand">BRIEF №01</div>
+  </div>
+
+</div>
+
+<script>
+function copyPrompt() {
+  const text = document.getElementById('promptText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied ✓';
+    btn.style.background = 'var(--amber)';
+    btn.style.color = 'var(--black)';
+    setTimeout(() => {
+      btn.textContent = 'Copy ↗';
+      btn.style.background = '';
+      btn.style.color = '';
+    }, 2000);
+  });
+}
+</script>
+</body>
+</html>
