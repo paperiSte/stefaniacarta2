@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Eight Bars of Proof — Turn The Page Research Log</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:           #F4EFE6;
+    --bg-card:      #FBF8F2;
+    --ink:          #1A1614;
+    --ink-soft:     #4A4441;
+    --ink-muted:    #7A7168;
+    --rule:         #D9CFBE;
+    --accent:       #B3432A;
+    --accent-soft:  #E8D7CC;
+    --success:      #2F6B3D;
+    --terminal-bg:  #1A1614;
+    --terminal-fg:  #E8DFCF;
+    --terminal-dim: #8F867A;
+    --terminal-ok:  #9CC88C;
+    --terminal-warn:#E0B070;
+    --measure:      68ch;
+    --measure-wide: 92ch;
+  }
+ 
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+  html { scroll-behavior: smooth; }
+ 
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Instrument Sans', -apple-system, sans-serif;
+    font-size: 17px;
+    line-height: 1.65;
+    font-feature-settings: 'ss01' on, 'cv01' on;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(179, 67, 42, 0.03) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(179, 67, 42, 0.02) 0%, transparent 50%);
+  }
+ 
+  /* Subtle paper grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+ 
+  .wrap {
+    position: relative;
+    z-index: 2;
+    max-width: var(--measure-wide);
+    margin: 0 auto;
+    padding: 0 clamp(20px, 5vw, 60px);
+  }
+ 
+  .text { max-width: var(--measure); }
+ 
+  /* =========================
+     HERO
+     ========================= */
+  header.hero {
+    padding: clamp(40px, 8vh, 80px) 0 clamp(48px, 10vh, 100px);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+ 
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .eyebrow .dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent);
+  }
+ 
+  h1.hero-title {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 144, 'SOFT' 50, 'wght' 500;
+    font-size: clamp(44px, 8vw, 96px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin-bottom: 28px;
+    color: var(--ink);
+  }
+  h1.hero-title em {
+    font-style: italic;
+    font-variation-settings: 'opsz' 144, 'SOFT' 100, 'wght' 400;
+    color: var(--accent);
+  }
+ 
+  .hero-sub {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 24, 'wght' 350;
+    font-size: clamp(18px, 2.2vw, 24px);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 52ch;
+    margin-bottom: 56px;
+    font-style: italic;
+  }
+ 
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 32px;
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    max-width: 720px;
+  }
+  .hero-meta dt {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+  .hero-meta dd {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+  }
+ 
+  /* Musical staff decoration */
+  .staff-deco {
+    margin: 48px 0 0;
+    opacity: 0.4;
+  }
+ 
+  /* =========================
+     SECTIONS
+     ========================= */
+  section { padding: clamp(56px, 10vh, 96px) 0; }
+  section + section { border-top: 1px solid var(--rule); }
+ 
+  .chapter-mark {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .chapter-mark::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+ 
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 72, 'SOFT' 30, 'wght' 450;
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    color: var(--ink);
+    max-width: 24ch;
+  }
+  h2 em {
+    font-style: italic;
+    font-variation-settings: 'opsz' 72, 'SOFT' 80, 'wght' 350;
+    color: var(--accent);
+  }
+ 
+  h3 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 36, 'wght' 500;
+    font-size: 22px;
+    line-height: 1.3;
+    margin: 40px 0 14px;
+    color: var(--ink);
+  }
+ 
+  p {
+    font-size: 17px;
+    line-height: 1.65;
+    margin-bottom: 18px;
+    color: var(--ink-soft);
+    max-width: var(--measure);
+  }
+  p strong { color: var(--ink); font-weight: 600; }
+  p em { color: var(--ink); }
+ 
+  a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+ 
+  /* Drop cap on first paragraph of a section */
+  .lede::first-letter {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 144, 'wght' 500;
+    float: left;
+    font-size: 68px;
+    line-height: 0.9;
+    margin: 6px 10px 0 -2px;
+    color: var(--accent);
+  }
+ 
+  /* =========================
+     PULL QUOTE
+     ========================= */
+  .pullquote {
+    margin: 40px 0;
+    padding: 8px 0 8px 28px;
+    border-left: 3px solid var(--accent);
+    max-width: var(--measure);
+  }
+  .pullquote p {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 48, 'wght' 380;
+    font-style: italic;
+    font-size: 24px;
+    line-height: 1.4;
+    color: var(--ink);
+    margin-bottom: 0;
+  }
+ 
+  /* =========================
+     CALLOUT
+     ========================= */
+  .callout {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 24px 28px;
+    margin: 32px 0;
+    max-width: var(--measure);
+  }
+  .callout .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 10px;
+    display: block;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p { color: var(--ink); }
+ 
+  /* =========================
+     CODE & TERMINAL
+     ========================= */
+  pre, code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+  }
+ 
+  p code, li code {
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+  }
+ 
+  .code-block {
+    margin: 28px 0;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: var(--measure-wide);
+  }
+  .code-block__head {
+    background: #EEE7D9;
+    padding: 8px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--rule);
+  }
+  .code-block__head .lang {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .code-block pre {
+    padding: 20px 24px;
+    overflow-x: auto;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+  .code-block .kw { color: #8B4513; font-weight: 500; }
+  .code-block .str { color: #6A7F3E; }
+  .code-block .com { color: var(--ink-muted); font-style: italic; }
+  .code-block .num { color: #B3432A; }
+  .code-block .fn  { color: #5A4A8A; }
+ 
+  /* Terminal */
+  .terminal {
+    margin: 28px 0;
+    background: var(--terminal-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -20px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.05);
+    max-width: var(--measure-wide);
+  }
+  .terminal__head {
+    background: #2A2522;
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .terminal__head .dots { display: flex; gap: 7px; }
+  .terminal__head .dots span {
+    width: 11px; height: 11px; border-radius: 50%;
+    display: block;
+  }
+  .terminal__head .dots span:nth-child(1) { background: #FF5F57; }
+  .terminal__head .dots span:nth-child(2) { background: #FEBC2E; }
+  .terminal__head .dots span:nth-child(3) { background: #28C840; }
+  .terminal__head .title {
+    flex: 1;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--terminal-dim);
+    letter-spacing: 0.05em;
+  }
+  .terminal pre {
+    padding: 18px 20px;
+    color: var(--terminal-fg);
+    overflow-x: auto;
+    font-size: 12.5px;
+    line-height: 1.65;
+  }
+  .terminal .prompt { color: var(--terminal-ok); }
+  .terminal .path { color: #7EBAEB; }
+  .terminal .out { color: var(--terminal-fg); }
+  .terminal .dim { color: var(--terminal-dim); }
+  .terminal .warn { color: var(--terminal-warn); }
+  .terminal .err { color: #E07A6A; }
+  .terminal .ok { color: var(--terminal-ok); }
+  .terminal .comment { color: var(--terminal-dim); font-style: italic; }
+ 
+  /* =========================
+     RESULT SCORECARD
+     ========================= */
+  .scorecard {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: clamp(28px, 5vw, 48px);
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 32px;
+    max-width: var(--measure-wide);
+    position: relative;
+  }
+  .scorecard::before {
+    content: 'Result';
+    position: absolute;
+    top: 0; left: 28px;
+    transform: translateY(-50%);
+    background: var(--bg);
+    padding: 0 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .stat {
+    border-left: 1px solid var(--rule);
+    padding-left: 20px;
+  }
+  .stat:first-child { border-left: none; padding-left: 0; }
+  .stat__label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+  .stat__value {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 72, 'wght' 400;
+    font-size: clamp(32px, 5vw, 48px);
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.02em;
+  }
+  .stat__value.success { color: var(--success); }
+  .stat__value.accent { color: var(--accent); }
+  .stat__sub {
+    font-size: 13px;
+    color: var(--ink-muted);
+  }
+ 
+  @media (max-width: 600px) {
+    .stat { border-left: none; padding-left: 0; }
+  }
+ 
+  /* =========================
+     COMPARISON TABLE
+     ========================= */
+  .comparison {
+    margin: 40px 0;
+    max-width: var(--measure-wide);
+  }
+  .comparison__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .comparison__col {
+    background: var(--bg-card);
+    padding: 28px;
+  }
+  .comparison__col h4 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 36, 'wght' 500;
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .comparison__col .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 2px;
+  }
+  .comparison__col.before .tag {
+    background: #E8D7CC;
+    color: #8B3A2A;
+  }
+  .comparison__col.after .tag {
+    background: #D7E4D0;
+    color: var(--success);
+  }
+  .comparison__col ul {
+    list-style: none;
+    padding: 0;
+  }
+  .comparison__col li {
+    font-size: 14.5px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--rule);
+    color: var(--ink-soft);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .comparison__col li::before {
+    content: '›';
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+  .comparison__col li:last-child { border-bottom: none; }
+  @media (max-width: 720px) {
+    .comparison__grid { grid-template-columns: 1fr; }
+  }
+ 
+  /* =========================
+     BEAT PROGRESSION VIZ
+     ========================= */
+  .beat-viz {
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    padding: 32px;
+    margin: 40px 0;
+    max-width: var(--measure-wide);
+  }
+  .beat-viz__title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .beat-viz__caption {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 14px;
+    line-height: 1.5;
+    font-style: italic;
+  }
+ 
+  /* =========================
+     IMAGE SLOT (for Ste to add her own screenshots)
+     ========================= */
+  .img-slot {
+    margin: 36px 0;
+    border: 1px dashed var(--rule);
+    background: var(--bg-card);
+    padding: 40px 24px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-muted);
+    letter-spacing: 0.1em;
+    max-width: var(--measure-wide);
+  }
+  .img-slot::before {
+    content: '◇';
+    display: block;
+    font-size: 18px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+ 
+  /* =========================
+     TIMELINE
+     ========================= */
+  .timeline {
+    margin: 40px 0;
+    max-width: var(--measure);
+  }
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .timeline__item:last-child { border-bottom: none; }
+  .timeline__step {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+  .timeline__body h4 {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 24, 'wght' 500;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .timeline__body p {
+    font-size: 14.5px;
+    margin-bottom: 0;
+    color: var(--ink-soft);
+  }
+ 
+  /* =========================
+     FOOTER
+     ========================= */
+  footer {
+    padding: 80px 0 60px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+  }
+  footer .sig {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 48, 'wght' 380, 'SOFT' 80;
+    font-style: italic;
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  footer .caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+ 
+  /* =========================
+     LOAD ANIMATION
+     ========================= */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  header.hero > * {
+    animation: fadeUp 0.8s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+  }
+  header.hero > *:nth-child(1) { animation-delay: 0.05s; }
+  header.hero > *:nth-child(2) { animation-delay: 0.15s; }
+  header.hero > *:nth-child(3) { animation-delay: 0.25s; }
+  header.hero > *:nth-child(4) { animation-delay: 0.35s; }
+  header.hero > *:nth-child(5) { animation-delay: 0.45s; }
+ 
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+ 
+<div class="wrap">
+ 
+<!-- =============== HERO =============== -->
+<header class="hero">
+  <div class="eyebrow">
+    <span class="dot"></span>
+    <span>Turn The Page · Research Log №1</span>
+    <span style="color: var(--rule);">/</span>
+    <span>18 April 2026</span>
+  </div>
+ 
+  <h1 class="hero-title">Eight bars<br><em>of proof.</em></h1>
+ 
+  <p class="hero-sub">One afternoon, one score-following library, one stubborn <code style="background:transparent;color:inherit;padding:0;font-size:inherit;">aubio</code> aligner that wouldn't listen to piano chords, and the moment the cursor finally moved forward without jumping back.</p>
+ 
+  <dl class="hero-meta">
+    <div>
+      <dt>Project</dt>
+      <dd>Turn The Page — an automated sheet music page-turner for performing musicians.</dd>
+    </div>
+    <div>
+      <dt>Role</dt>
+      <dd>Product, research, and AI-assisted development.</dd>
+    </div>
+    <div>
+      <dt>Phase</dt>
+      <dd>Pre-architecture: validating the alignment engine before committing to the full stack.</dd>
+    </div>
+    <div>
+      <dt>Outcome</dt>
+      <dd>Pivoted from a custom monophonic aligner to Matchmaker (OLTW). Zero backward jumps on first working run.</dd>
+    </div>
+  </dl>
+ 
+  <svg class="staff-deco" width="100%" height="24" viewBox="0 0 800 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+    <line x1="0" y1="4"  x2="800" y2="4"  stroke="#B3432A" stroke-width="0.5"/>
+    <line x1="0" y1="9"  x2="800" y2="9"  stroke="#B3432A" stroke-width="0.5"/>
+    <line x1="0" y1="14" x2="800" y2="14" stroke="#B3432A" stroke-width="0.5"/>
+    <line x1="0" y1="19" x2="800" y2="19" stroke="#B3432A" stroke-width="0.5"/>
+  </svg>
+</header>
+ 
+<!-- =============== § 1 PREFACE =============== -->
+<section>
+  <div class="chapter-mark">Preface</div>
+  <h2>Before the afternoon.</h2>
+ 
+  <div class="text">
+    <p class="lede">Turn The Page is an app I've been building to solve a small but stubborn problem: musicians play with both hands, and sheet music still requires a third one. Existing page-turning apps rely on metronomes and timing guesses. I wanted one that actually <em>listens</em> — hears what the musician is playing, matches it against the score, and turns the page just before the last note of the page lands.</p>
+ 
+    <p>I'm not a traditional developer. I build with AI assistance and product intuition. The project had been moving: a command-line prototype that parsed MusicXML with <code>music21</code>, a Streamlit web app for testing, pitch detection running through <code>aubio</code>. Enough working pieces to feel like progress.</p>
+ 
+    <p>And yet, the core was failing quietly. Out of eight bars played on piano, the aligner would match only four to eight individual notes. I'd invented a forward-only search window to patch the cursor jumping backwards. I'd been tweaking tolerances and confidence thresholds for weeks. The numbers got better in tiny increments and then stopped improving.</p>
+ 
+    <p>This log is the afternoon I stopped tweaking and started questioning the architecture.</p>
+  </div>
+</section>
+ 
+<!-- =============== § 2 THE CRITIQUE =============== -->
+<section>
+  <div class="chapter-mark">I · The critique</div>
+  <h2>The roadmap was <em>right</em> about the ceiling.</h2>
+ 
+  <div class="text">
+    <p>I received a technical critique of my project roadmap. Reading it carefully turned out to be more valuable than a week of work, because it correctly named two problems I'd been circling without seeing:</p>
+ 
+    <h3>1. Polyphony</h3>
+    <p><code>aubio</code> is a <strong>monophonic</strong> pitch detector. It expects one note at a time — flute, voice, monophonic violin line. My test pieces (<em>Idea No. 10</em> by Gibran Alcocer, <em>Una Mattina</em> by Einaudi) are solo piano: chords, sustain pedal, overlapping voices. I had been asking a tool built for one sound to transcribe many. The ceiling wasn't in the tuning parameters. It was in the tool.</p>
+ 
+    <h3>2. No real alignment</h3>
+    <p>My "forward-only ±15 note search window" was a hand-rolled approximation of <strong>OLTW</strong> — Online Dynamic Time Warping — the standard algorithm in music information retrieval for real-time score following. I'd invented a clumsy cousin of the thing that already existed and had been studied for twenty years.</p>
+ 
+    <div class="pullquote">
+      <p>The problem wasn't that I needed better tuning. The problem was that I was building my own version of something a research community had already solved.</p>
+    </div>
+  </div>
+</section>
+ 
+<!-- =============== § 3 THE DISCOVERY =============== -->
+<section>
+  <div class="chapter-mark">II · The discovery</div>
+  <h2>A library published last autumn, built for exactly this.</h2>
+ 
+  <div class="text">
+    <p>Before acting on the critique, I verified its biggest claim: the existence of <strong>Matchmaker</strong>, supposedly an open-source Python library for real-time piano score following. If it was real and worked, it would collapse several phases of my roadmap at once.</p>
+ 
+    <p>It was real. Published at ISMIR 2025 by a team from KAIST and the Austrian Research Institute for AI. Apache 2.0 licensed (<em>important, since <code>aubio</code> is GPL — a problem if I ever want to ship this as a commercial app</em>). Designed to be "easily integrated into existing projects." The list of intended applications in the paper included, verbatim, <em>"automatic page turning."</em></p>
+ 
+    <div class="callout">
+      <span class="label">Key finding from the paper</span>
+      <p>The authors benchmarked several feature types. They found that an onset-sensitive spectral feature (LSE, <code>logspectral</code>) outperforms chroma in both accuracy and latency — inverting a common recommendation and giving me a concrete variable to test next.</p>
+    </div>
+ 
+    <p>The question stopped being <em>"how do I build a score follower?"</em> and became <em>"does this one work on my audio, out of the box?"</em></p>
+  </div>
+</section>
+ 
+<!-- =============== § 4 THE PLAN =============== -->
+<section>
+  <div class="chapter-mark">III · The plan</div>
+  <h2>A small, unambitious test.</h2>
+ 
+  <div class="text">
+    <p>The experiment I defined was deliberately minimal. The goal wasn't to ship anything — it was to answer one question: <strong>can Matchmaker, running on my specific test files, produce a monotonically-advancing alignment?</strong></p>
+ 
+    <p>If yes, I'd pivot. If no, I'd fall back to a narrower scope (monophonic instruments only, a product decision rather than an engineering failure). Either answer was more valuable than another week of aubio tuning.</p>
+  </div>
+ 
+  <div class="timeline">
+    <div class="timeline__item">
+      <div class="timeline__step">Step 01</div>
+      <div class="timeline__body">
+        <h4>Create an isolated conda environment.</h4>
+        <p>Matchmaker requires Python 3.12; my existing <code>turnthepage</code> env is 3.11. New env — don't break what's working.</p>
+      </div>
+    </div>
+    <div class="timeline__item">
+      <div class="timeline__step">Step 02</div>
+      <div class="timeline__body">
+        <h4>Install Matchmaker and its audio dependencies.</h4>
+        <p>Fluidsynth, PortAudio, glib via conda-forge; Matchmaker itself via pip.</p>
+      </div>
+    </div>
+    <div class="timeline__item">
+      <div class="timeline__step">Step 03</div>
+      <div class="timeline__body">
+        <h4>Prepare the test inputs.</h4>
+        <p>Convert the piano recording from <code>.m4a</code> to <code>.wav</code>. Keep the existing <code>.mxl</code> score for the first attempt.</p>
+      </div>
+    </div>
+    <div class="timeline__item">
+      <div class="timeline__step">Step 04</div>
+      <div class="timeline__body">
+        <h4>Write a small, disposable test script.</h4>
+        <p>No live mic. No UI. Just feed pre-recorded audio to Matchmaker and print the beat positions it produces.</p>
+      </div>
+    </div>
+    <div class="timeline__item">
+      <div class="timeline__step">Step 05</div>
+      <div class="timeline__body">
+        <h4>Look at the output honestly.</h4>
+        <p>Monotonic numbers = success. Chaos = fail. Anything in between = a specific, named next problem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- =============== § 5 THE SCRIPT =============== -->
+<section>
+  <div class="chapter-mark">IV · The instrument</div>
+  <h2>Forty lines of Python.</h2>
+ 
+  <div class="text">
+    <p>The entire test lived in a single script, <code>match_test_mm.py</code>, sitting beside my existing aligner so nothing was overwritten. The Matchmaker API turned out to be about as simple as a library can be:</p>
+  </div>
+ 
+  <div class="code-block">
+    <div class="code-block__head">
+      <span>match_test_mm.py</span>
+      <span class="lang">Python</span>
+    </div>
+<pre><span class="com">"""
+Go/no-go experiment: can Matchmaker align
+Idea No. 10 out of the box?
+"""</span>
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+<span class="kw">from</span> queue   <span class="kw">import</span> Empty
+<span class="kw">from</span> matchmaker <span class="kw">import</span> Matchmaker
+ 
+SCRIPT_DIR       = Path(__file__).parent
+SCORE_FILE       = SCRIPT_DIR / <span class="str">"idea-n10-gibran-alcocer-8bars.mxl"</span>
+PERFORMANCE_FILE = SCRIPT_DIR / <span class="str">"Idea10.wav"</span>
+ 
+mm = <span class="fn">Matchmaker</span>(
+    score_file       = <span class="fn">str</span>(SCORE_FILE),
+    performance_file = <span class="fn">str</span>(PERFORMANCE_FILE),
+    input_type       = <span class="str">"audio"</span>,
+    <span class="com"># method="arzt"          (default: OLTW variant)</span>
+    <span class="com"># feature_type="chroma"  (try "logspectral" next)</span>
+)
+ 
+positions = []
+<span class="kw">try</span>:
+    <span class="kw">for</span> current_position <span class="kw">in</span> mm.<span class="fn">run</span>():
+        positions.<span class="fn">append</span>(current_position)
+        <span class="kw">if</span> <span class="fn">len</span>(positions) % <span class="num">20</span> == <span class="num">0</span>:
+            <span class="fn">print</span>(<span class="str">f"  frame </span>{<span class="fn">len</span>(positions):<span class="num">4</span>d}<span class="str">:  beat = </span>{current_position:.<span class="num">2</span>f}<span class="str">"</span>)
+<span class="kw">except</span> Empty:
+    <span class="fn">print</span>(<span class="str">"\n(End of audio reached.)"</span>)</pre>
+  </div>
+ 
+  <div class="text">
+    <p>The whole thing is about forty lines, including comments and a summary block. The entire "intelligence" of the test is on two lines: <code>mm = Matchmaker(...)</code> and <code>for current_position in mm.run()</code>. Everything hard happens inside the library.</p>
+  </div>
+</section>
+ 
+<!-- =============== § 6 THE INSTALL GAUNTLET =============== -->
+<section>
+  <div class="chapter-mark">V · The install gauntlet</div>
+  <h2>Setup pain, in the order it happened.</h2>
+ 
+  <div class="text">
+    <p>The setup was not clean. This is worth recording honestly — most of a day of "AI product design" is actually patience with broken tooling. Every one of these was solvable, but none of them was obvious.</p>
+ 
+    <h3>Obstacle 1 — llvmlite refused to compile</h3>
+    <p><code>pymatchmaker</code> pulls in <code>librosa</code>, which pulls in <code>numba</code>, which pulls in <code>llvmlite</code> — a library that requires the LLVM compiler toolchain to build from source. My Mac doesn't ship one. Pip tried to build anyway and failed with a wall of red:</p>
+  </div>
+ 
+  <div class="terminal">
+    <div class="terminal__head">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="title">matchmaker — zsh</div>
+    </div>
+<pre><span class="dim">Building wheel for llvmlite (pyproject.toml) ... error</span>
+<span class="err">  FileNotFoundError: llvmlite needs CMake tools to build. It
+  appears that the 'cmake' tool is either not installed or not
+  found on the path.</span>
+<span class="err">ERROR: Failed building wheel for llvmlite
+× Failed to build installable wheels for some pyproject.toml
+  based projects</span>
+<span class="err">╰─> llvmlite</span></pre>
+  </div>
+ 
+  <div class="text">
+    <p><strong>Fix:</strong> install <code>numba</code> (and therefore <code>llvmlite</code>) through <code>conda-forge</code> <em>first</em>. Conda ships a precompiled binary. Pip then saw "Requirement already satisfied" and moved past the broken build step.</p>
+ 
+    <h3>Obstacle 2 — missing pandas dependency</h3>
+    <p>The library ran, got far enough to import, then crashed on a missing import inside <code>partitura</code> (Matchmaker's MusicXML parser). Not Matchmaker's fault — a packaging oversight in a dependency. Another <code>conda install</code>, problem gone.</p>
+ 
+    <h3>Obstacle 3 — MuseScore's "Save As" doesn't export MusicXML</h3>
+    <p>Not a code problem, but a UI one. In MuseScore 4, <strong>Save As</strong> only offers native formats. To get <code>.mxl</code> out, you have to use <strong>File → Export</strong>. I caught this because the dialog I was staring at had only two options in its format dropdown, neither of which was what I wanted.</p>
+ 
+    <div class="callout">
+      <span class="label">Lesson worth keeping</span>
+      <p>On this kind of project, "the hard part" is rarely the algorithm. It's the eight small integration friction points between tools that were never designed to work together. Budgeting time for them upfront is more realistic than pretending they don't exist.</p>
+    </div>
+  </div>
+</section>
+ 
+<!-- =============== § 7 FIRST RUN =============== -->
+<section>
+  <div class="chapter-mark">VI · First run</div>
+  <h2>Working, but <em>pointing at the wrong thing</em>.</h2>
+ 
+  <div class="text">
+    <p>The first successful run was both encouraging and confusing. The alignment was running — no crashes, numbers advancing forward — but the beat positions were huge. Frame 20 was already at beat 68. For a 12-second piano recording this made no sense.</p>
+  </div>
+ 
+  <div class="terminal">
+    <div class="terminal__head">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="title">matchmaker — first run (full score)</div>
+    </div>
+<pre><span class="prompt">(matchmaker)</span> <span class="path">~/8BarsAndMXL</span> % python match_test_mm.py
+<span class="dim">Score file:       idea-n10-gibran-alcocer.mxl
+Performance file: Idea10.wav</span>
+<span class="dim">------------------------------------------------------------</span>
+<span class="warn">* Mock listening to stream....</span>
+  frame   20:  beat = <span class="warn">68.50</span>
+  frame   40:  beat = <span class="warn">131.03</span>
+  frame   60:  beat = <span class="warn">147.83</span>
+  frame  140:  beat = <span class="warn">147.83</span>   <span class="comment">← held note plateau</span>
+  frame  220:  beat = <span class="warn">238.37</span>
+  frame  340:  beat = <span class="warn">313.03</span>
+ <span class="dim">91% (337 of 370) |##################~         |</span>
+<span class="err">_queue.Empty</span></pre>
+  </div>
+ 
+  <div class="text">
+    <p>The progress bar gave me the clue: Matchmaker was reading my score as having <strong>370 beats total</strong>. A short piano piece at a typical tempo has maybe 20–40 beats. The MusicXML file I was using contained <em>the entire piece</em>, not just the eight bars I'd recorded. The aligner was trying to match a 12-second performance against a three-minute score — and, remarkably, it was still finding the right region.</p>
+ 
+    <p>The <code>_queue.Empty</code> at the end wasn't a real failure. It was Matchmaker politely asking "is there more audio?" after my file ran out. I caught this exception in the next version and turned it into a clean end-of-stream message.</p>
+ 
+    <div class="pullquote">
+      <p>The alignment working on the wrong-sized score was a better signal than I realized. It meant the library was robust enough to partially succeed even when I fed it bad inputs.</p>
+    </div>
+  </div>
+</section>
+ 
+<!-- =============== § 8 TRIMMING THE SCORE =============== -->
+<section>
+  <div class="chapter-mark">VII · Trimming the score</div>
+  <h2>Matching the instrument to the recording.</h2>
+ 
+  <div class="text">
+    <p>To get a fair test, the score and the performance needed to cover the same bars. I opened the <code>.mxl</code> in MuseScore, selected everything from bar 9 onwards, and deleted those measures entirely. What remained was exactly the eight bars I had played.</p>
+  </div>
+ 
+  <img src="musescore-8bars.png" alt="The trimmed 8-bar score in MuseScore" style="max-width:100%; height:auto; display:block; border:1px solid #D9CFBE;">
+ 
+  <div class="text">
+    <p>I exported it as <code>idea-n10-gibran-alcocer-8bars.mxl</code>, side-by-side with the original. Two files now: the full score for eventual use, and the trimmed score for today's test. Pointed the script at the new file and ran it again.</p>
+  </div>
+</section>
+ 
+<!-- =============== § 9 THE RESULT =============== -->
+<section>
+  <div class="chapter-mark">VIII · The result</div>
+  <h2>Zero backward <em>jumps.</em></h2>
+ 
+  <div class="text">
+    <p>The second run did what the first run promised. The output stream started near zero, climbed steadily, paused during held notes, and ended cleanly.</p>
+  </div>
+ 
+  <div class="terminal">
+    <div class="terminal__head">
+      <div class="dots"><span></span><span></span><span></span></div>
+      <div class="title">matchmaker — second run (trimmed score)</div>
+    </div>
+<pre><span class="prompt">(matchmaker)</span> <span class="path">~/8BarsAndMXL</span> % python match_test_mm.py
+<span class="dim">Score file:       idea-n10-gibran-alcocer-8bars.mxl
+Performance file: Idea10.wav</span>
+<span class="dim">------------------------------------------------------------</span>
+<span class="dim">default tempo: 120 (score length: 11.25)
+  -> adjusted_tempo: 120 (perf length: 12.61)</span>
+ 
+Running alignment...
+ 
+  frame   20:  beat = <span class="ok">4.83</span>
+  frame   40:  beat = <span class="ok">9.83</span>
+  frame   60:  beat = <span class="ok">10.50</span>
+  frame   80:  beat = <span class="ok">14.50</span>
+  frame  100:  beat = <span class="ok">14.50</span>     <span class="comment">← held chord</span>
+  frame  140:  beat = <span class="ok">15.50</span>
+  frame  160:  beat = <span class="ok">17.37</span>
+  frame  280:  beat = <span class="ok">17.37</span>     <span class="comment">← sustain pedal</span>
+  frame  320:  beat = <span class="ok">18.50</span>
+  frame  340:  beat = <span class="ok">20.03</span>
+<span class="dim">100% (324 of 324) |##########################|</span>
+ 
+<span class="dim">------------------------------------------------------------</span>
+Total frames processed: <span class="ok">340</span>
+First position: <span class="ok">-1.50</span> beats
+Last position:  <span class="ok">20.03</span> beats
+Total range covered: <span class="ok">21.53</span> beats
+Backward jumps &gt; 0.5 beats: <span class="ok">0</span>
+  <span class="ok">(Looks mostly forward-moving — good sign.)</span></pre>
+  </div>
+ 
+  <div class="scorecard">
+    <div class="stat">
+      <div class="stat__label">Backward jumps</div>
+      <div class="stat__value success">0</div>
+      <div class="stat__sub">Cursor never moved backwards.</div>
+    </div>
+    <div class="stat">
+      <div class="stat__label">Range covered</div>
+      <div class="stat__value">21.5<span style="font-size:0.5em; color: var(--ink-muted);">beats</span></div>
+      <div class="stat__sub">Of a 24-beat score. ~90%.</div>
+    </div>
+    <div class="stat">
+      <div class="stat__label">Start position</div>
+      <div class="stat__value accent">−1.5</div>
+      <div class="stat__sub">Correctly identified the pickup.</div>
+    </div>
+    <div class="stat">
+      <div class="stat__label">Tempo handling</div>
+      <div class="stat__value" style="font-size: 28px;">automatic</div>
+      <div class="stat__sub">11.25s score → 12.6s performance.</div>
+    </div>
+  </div>
+ 
+  <div class="beat-viz">
+    <div class="beat-viz__title">Beat position over time</div>
+    <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:auto; display:block;">
+      <!-- grid -->
+      <g stroke="#D9CFBE" stroke-width="0.5" opacity="0.6">
+        <line x1="60" y1="30"  x2="780" y2="30"/>
+        <line x1="60" y1="75"  x2="780" y2="75"/>
+        <line x1="60" y1="120" x2="780" y2="120"/>
+        <line x1="60" y1="165" x2="780" y2="165"/>
+        <line x1="60" y1="190" x2="780" y2="190"/>
+      </g>
+      <!-- y-axis labels -->
+      <g font-family="JetBrains Mono, monospace" font-size="9" fill="#7A7168">
+        <text x="50" y="33"  text-anchor="end">24</text>
+        <text x="50" y="78"  text-anchor="end">18</text>
+        <text x="50" y="123" text-anchor="end">12</text>
+        <text x="50" y="168" text-anchor="end">6</text>
+        <text x="50" y="193" text-anchor="end">0</text>
+      </g>
+      <text x="24" y="110" font-family="JetBrains Mono, monospace" font-size="9"
+            fill="#7A7168" text-anchor="middle" transform="rotate(-90 24 110)">BEAT POSITION</text>
+      <!-- x-axis label -->
+      <text x="420" y="215" font-family="JetBrains Mono, monospace" font-size="9"
+            fill="#7A7168" text-anchor="middle">FRAMES PROCESSED →</text>
+ 
+      <!-- data path: frames 20..340, approx mapped -->
+      <!-- x: 60 + (f/340)*720; y: 190 - (beat/24)*160 -->
+      <polyline fill="none" stroke="#B3432A" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"
+        points="
+          102,158
+          144,124
+          187,117
+          229, 93
+          271, 93
+          313, 93
+          355, 87
+          398, 74
+          440, 74
+          482, 74
+          525, 74
+          567, 74
+          609, 74
+          651, 74
+          694, 71
+          736, 66
+          780, 56
+        "/>
+ 
+      <!-- dots -->
+      <g fill="#B3432A">
+        <circle cx="102" cy="158" r="3"/>
+        <circle cx="144" cy="124" r="3"/>
+        <circle cx="187" cy="117" r="3"/>
+        <circle cx="229" cy="93"  r="3"/>
+        <circle cx="271" cy="93"  r="3"/>
+        <circle cx="313" cy="93"  r="3"/>
+        <circle cx="355" cy="87"  r="3"/>
+        <circle cx="398" cy="74"  r="3"/>
+        <circle cx="440" cy="74"  r="3"/>
+        <circle cx="482" cy="74"  r="3"/>
+        <circle cx="525" cy="74"  r="3"/>
+        <circle cx="567" cy="74"  r="3"/>
+        <circle cx="609" cy="74"  r="3"/>
+        <circle cx="651" cy="74"  r="3"/>
+        <circle cx="694" cy="71"  r="3"/>
+        <circle cx="736" cy="66"  r="3"/>
+        <circle cx="780" cy="56"  r="3"/>
+      </g>
+ 
+      <!-- annotations -->
+      <g font-family="Fraunces, serif" font-size="11" font-style="italic" fill="#4A4441">
+        <text x="400" y="66">held chord (beat 14.5)</text>
+        <text x="560" y="62">sustain pedal (beat 17.4)</text>
+      </g>
+      <line x1="398" y1="75" x2="398" y2="95" stroke="#7A7168" stroke-width="0.5" stroke-dasharray="2 2"/>
+      <line x1="567" y1="75" x2="567" y2="95" stroke="#7A7168" stroke-width="0.5" stroke-dasharray="2 2"/>
+    </svg>
+    <p class="beat-viz__caption">
+      Beat position climbs monotonically from the pickup note to the end of the eight bars.
+      Flat stretches are not bugs — they are sustained chords and pedaled passages where no new notes are struck, so the score cursor correctly stays still. This is exactly the behavior a page-turning system needs.
+    </p>
+  </div>
+</section>
+ 
+<!-- =============== § 10 BEFORE / AFTER =============== -->
+<section>
+  <div class="chapter-mark">IX · What changed</div>
+  <h2>Where I was, where I am.</h2>
+ 
+  <div class="comparison">
+    <div class="comparison__grid">
+      <div class="comparison__col before">
+        <span class="tag">Before</span>
+        <h4>Hand-rolled aligner on monophonic pitch detection</h4>
+        <ul>
+          <li>4–8 notes matched out of 8 bars played</li>
+          <li>Non-linear cursor: jumped backwards on fast passages</li>
+          <li>Hand-coded "forward-only ±15 note" window as a patch</li>
+          <li>No concept of tempo adaptation</li>
+          <li>Fixed 40 Hz pitch tolerance — poor at low registers</li>
+          <li>GPL-licensed dependency — unclear commercial path</li>
+        </ul>
+      </div>
+      <div class="comparison__col after">
+        <span class="tag">After</span>
+        <h4>Matchmaker (OLTW) on chroma features</h4>
+        <ul>
+          <li>Tracked ~90% of the piece on first working run</li>
+          <li>Zero backward jumps. Monotonicity by construction</li>
+          <li>OLTW does the job the hand-rolled window imitated</li>
+          <li>Tempo difference handled automatically (score 11.25s, perf 12.6s)</li>
+          <li>Relative feature matching — octave-robust by design</li>
+          <li>Apache 2.0 — commercially friendly</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- =============== § 11 WHAT THIS MEANS =============== -->
+<section>
+  <div class="chapter-mark">X · What it means for the project</div>
+  <h2>A scope decision, not just a technical one.</h2>
+ 
+  <div class="text">
+    <p>The biggest shift from today isn't the library. It's the reframing of what I'm actually building.</p>
+ 
+    <p>The original plan had me spending months implementing real-time score following from scratch — which is a genuine open research problem, not a weekend project. With Matchmaker doing that heavy lifting, my work becomes something different and, honestly, more interesting for a product portfolio:</p>
+ 
+    <ul style="max-width: var(--measure); margin-bottom: 24px; list-style: none; padding: 0;">
+      <li style="padding: 10px 0 10px 28px; border-bottom: 1px solid var(--rule); color: var(--ink-soft); position: relative;">
+        <span style="position: absolute; left: 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 12px; top: 13px;">→</span>
+        <strong style="color: var(--ink);">UX for performing musicians.</strong> Look-ahead buffering, page-turn timing, teaching mode — the things that actually determine whether a pianist trusts the app on stage.
+      </li>
+      <li style="padding: 10px 0 10px 28px; border-bottom: 1px solid var(--rule); color: var(--ink-soft); position: relative;">
+        <span style="position: absolute; left: 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 12px; top: 13px;">→</span>
+        <strong style="color: var(--ink);">Translation layer.</strong> Converting Matchmaker's beat-position output into measure numbers and page boundaries — the actual units a page turner needs.
+      </li>
+      <li style="padding: 10px 0 10px 28px; border-bottom: 1px solid var(--rule); color: var(--ink-soft); position: relative;">
+        <span style="position: absolute; left: 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 12px; top: 13px;">→</span>
+        <strong style="color: var(--ink);">Robustness work.</strong> Environmental noise, tempo changes, rallentandi, what happens when the musician restarts mid-piece.
+      </li>
+      <li style="padding: 10px 0; color: var(--ink-soft); position: relative; padding-left: 28px;">
+        <span style="position: absolute; left: 0; color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 12px; top: 13px;">→</span>
+        <strong style="color: var(--ink);">Mobile delivery.</strong> The Flutter port, the app store path, the onboarding flow that makes this feel obvious to use.
+      </li>
+    </ul>
+ 
+    <p>None of those are research problems. They're product problems — and they're the problems I'm actually qualified to solve.</p>
+ 
+    <div class="pullquote">
+      <p>The most valuable thing today wasn't building anything. It was recognizing that something better already existed, and being willing to stop defending the work I'd already done.</p>
+    </div>
+ 
+    <h3>Next experiments</h3>
+    <p>On the roadmap for the next session: try <code>feature_type="logspectral"</code> per the ISMIR paper's finding and compare against chroma; test on a second piece (<em>Una Mattina</em>) to confirm the result generalizes; and build the beat-to-measure translation needed to rewire my existing Streamlit UI to Matchmaker's output.</p>
+  </div>
+</section>
+ 
+<!-- =============== FOOTER =============== -->
+<footer>
+  <div class="sig">— fine —</div>
+  <div class="caption">Research Log №1 · Turn The Page · Stefania Carta · April 2026</div>
+</footer>
+ 
+</div>
+ 
+</body>
+</html>
