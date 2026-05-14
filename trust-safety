@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>T&S Policy Work Samples — Stefania Carta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg:        #0e0d0b;
+    --bg-card:   #161510;
+    --bg-mid:    #1e1c17;
+    --border:    rgba(255,255,255,0.07);
+    --border-em: rgba(255,255,255,0.14);
+    --text:      #ede8da;
+    --muted:     #8a8478;
+    --faint:     #4a4740;
+    --amber:     #c9963a;
+    --amber-dim: #7a5820;
+    --amber-bg:  rgba(201,150,58,0.08);
+    --green-bg:  rgba(100,170,100,0.08);
+    --green:     #6aad6a;
+    --red-bg:    rgba(190,90,90,0.08);
+    --red:       #c46a6a;
+    --blue-bg:   rgba(80,130,200,0.08);
+    --blue:      #6ea0d4;
+    --violet-bg: rgba(130,100,200,0.08);
+    --violet:    #a080d4;
+    --teal-bg:   rgba(60,160,160,0.08);
+    --teal:      #4db8b8;
+    --teal-dim:  #1e5858;
+    --serif:     'Playfair Display', Georgia, serif;
+    --sans:      'DM Sans', system-ui, sans-serif;
+    --mono:      'DM Mono', monospace;
+  }
+  html { font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  .outer { max-width: 780px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+
+  header { padding: 4rem 0 2.5rem; border-bottom: 0.5px solid var(--border); margin-bottom: 3rem; }
+  .header-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--amber); margin-bottom: 1rem; }
+  header h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(2rem, 5vw, 2.8rem); line-height: 1.2; color: var(--text); margin-bottom: 0.75rem; }
+  header h1 em { font-style: italic; color: var(--muted); }
+  .header-note { margin-top: 1.25rem; font-size: 13px; color: var(--muted); max-width: 580px; line-height: 1.65; }
+  .header-meta { display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 0.5px solid var(--border); }
+  .meta-item { font-size: 12px; color: var(--muted); }
+  .meta-item strong { color: var(--text); font-weight: 400; display: block; font-size: 13px; }
+
+  .tab-row { display: flex; gap: 4px; margin-bottom: 2.5rem; flex-wrap: wrap; }
+  .tab-btn { background: none; border: 0.5px solid var(--border); color: var(--muted); font-family: var(--sans); font-size: 12px; font-weight: 400; letter-spacing: 0.04em; padding: 7px 16px; border-radius: 40px; cursor: pointer; transition: all 0.18s; }
+  .tab-btn:hover { border-color: var(--border-em); color: var(--text); }
+  .tab-btn.active { background: var(--amber-bg); border-color: var(--amber-dim); color: var(--amber); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .section-intro { font-size: 13px; color: var(--muted); margin-bottom: 2rem; max-width: 580px; line-height: 1.65; }
+
+  .case-card { border: 0.5px solid var(--border); border-radius: 12px; padding: 1.75rem; margin-bottom: 1.25rem; background: var(--bg-card); transition: border-color 0.2s; }
+  .case-card:hover { border-color: var(--border-em); }
+
+  .case-meta { display: flex; align-items: center; gap: 6px; margin-bottom: 1rem; flex-wrap: wrap; }
+  .badge { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; font-weight: 500; }
+  .b-policy  { background: var(--blue-bg);   color: var(--blue);   border: 0.5px solid rgba(110,160,212,0.2); }
+  .b-edge    { background: var(--amber-bg);  color: var(--amber);  border: 0.5px solid rgba(201,150,58,0.2); }
+  .b-esc     { background: var(--red-bg);    color: var(--red);    border: 0.5px solid rgba(196,106,106,0.2); }
+  .b-ok      { background: var(--green-bg);  color: var(--green);  border: 0.5px solid rgba(106,173,106,0.2); }
+  .b-up      { background: var(--violet-bg); color: var(--violet); border: 0.5px solid rgba(160,128,212,0.2); }
+  .b-neutral { background: rgba(255,255,255,0.04); color: var(--muted); border: 0.5px solid var(--border); }
+  .b-ai      { background: var(--teal-bg);   color: var(--teal);   border: 0.5px solid rgba(77,184,184,0.2); }
+
+  .case-title { font-family: var(--serif); font-size: 1.15rem; font-weight: 400; color: var(--text); margin-bottom: 1rem; line-height: 1.35; }
+
+  .scenario { background: var(--bg-mid); border-left: 2px solid var(--amber-dim); border-radius: 0 6px 6px 0; padding: 0.85rem 1rem; margin-bottom: 1.25rem; font-size: 13px; color: var(--muted); line-height: 1.65; }
+  .scenario strong { color: var(--text); font-weight: 400; }
+
+  .s-label { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); margin: 1.1rem 0 0.6rem; }
+
+  .tension-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+  @media (max-width: 520px) { .tension-row { grid-template-columns: 1fr; } }
+  .tension-side { border-radius: 6px; padding: 0.75rem; font-size: 12.5px; line-height: 1.55; }
+  .t-restrict { background: var(--red-bg); border-left: 2px solid var(--red); color: #c48080; }
+  .t-permit   { background: var(--green-bg); border-left: 2px solid var(--green); color: #80b880; }
+  .t-head { font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
+  .t-restrict .t-head { color: var(--red); }
+  .t-permit   .t-head { color: var(--green); }
+
+  .reason { display: flex; gap: 10px; margin-bottom: 0.65rem; align-items: flex-start; font-size: 13px; line-height: 1.65; color: var(--muted); }
+  .reason::before { content: ''; display: block; width: 4px; height: 4px; min-width: 4px; border-radius: 50%; background: var(--faint); margin-top: 8px; flex-shrink: 0; }
+
+  .signal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 1rem; }
+  @media (max-width: 520px) { .signal-grid { grid-template-columns: 1fr; } }
+  .signal { background: var(--bg-mid); border-radius: 6px; padding: 0.6rem 0.75rem; font-size: 12px; color: var(--muted); line-height: 1.45; display: flex; gap: 6px; align-items: flex-start; }
+  .sig-icon { flex-shrink: 0; margin-top: 1px; }
+  .sig-warn { color: var(--amber); }
+  .sig-ok   { color: var(--green); }
+
+  .priority-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1rem; }
+  .priority-label { font-size: 11px; color: var(--muted); white-space: nowrap; font-family: var(--mono); }
+  .pbar { flex: 1; height: 4px; background: var(--bg-mid); border-radius: 2px; overflow: hidden; border: 0.5px solid var(--border); }
+  .pfill { height: 100%; border-radius: 2px; }
+  .p-crit { background: var(--red);   width: 100%; }
+  .p-high { background: #d48060;      width: 75%; }
+  .p-mid  { background: var(--amber); width: 50%; }
+
+  .verdict { border-top: 0.5px solid var(--border); margin-top: 1.25rem; padding-top: 1.1rem; display: flex; gap: 12px; align-items: flex-start; }
+  .verdict-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--amber); flex-shrink: 0; padding-top: 3px; min-width: 56px; }
+  .verdict-text { font-size: 13px; color: var(--text); line-height: 1.6; font-weight: 300; }
+
+  .impact { margin-top: 8px; padding-top: 8px; border-top: 0.5px dashed rgba(77,184,184,0.15); display: flex; gap: 12px; align-items: flex-start; }
+  .impact-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); flex-shrink: 0; padding-top: 3px; min-width: 56px; }
+  .impact-text { font-size: 12px; color: var(--muted); line-height: 1.55; font-style: italic; }
+
+  .anchor-callout { background: rgba(77,184,184,0.05); border: 0.5px solid rgba(77,184,184,0.18); border-radius: 6px; padding: 0.55rem 0.9rem; margin-top: 0.7rem; font-size: 11.5px; color: var(--teal); font-family: var(--mono); letter-spacing: 0.02em; line-height: 1.5; }
+
+  footer { border-top: 0.5px solid var(--border); margin-top: 4rem; padding-top: 2rem; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; }
+  .footer-name { font-family: var(--serif); font-size: 1.1rem; color: var(--text); margin-bottom: 4px; }
+  .footer-sub { font-size: 12px; color: var(--muted); }
+  .footer-links { display: flex; gap: 1.25rem; align-items: center; }
+  .footer-links a { font-size: 12px; color: var(--muted); text-decoration: none; font-family: var(--mono); letter-spacing: 0.04em; transition: color 0.15s; }
+  .footer-links a:hover { color: var(--amber); }
+</style>
+</head>
+<body>
+<div class="outer">
+
+  <header>
+    <p class="header-label">Policy work samples · Trust &amp; Safety</p>
+    <h1>Integrity Operations<br><em>reasoning in practice</em></h1>
+    <p class="header-note">Ten annotated cases covering policy reasoning, edge case assessment, and escalation rationale — structured to reflect real-world content operations at scale, including calibration use cases for AI model training and evaluation.</p>
+    <div class="header-meta">
+      <div class="meta-item"><strong>Stefania Carta</strong>T&S Policy · UX Research · AI Ethics</div>
+      <div class="meta-item"><strong>Background</strong>Accenture / Google · 13 yrs experience</div>
+      <div class="meta-item"><strong>Location</strong>Dublin, Ireland · EU citizen</div>
+      <div class="meta-item"><strong>Portfolio</strong><a href="https://stefaniacarta.com" style="color:var(--amber);text-decoration:none;">stefaniacarta.com</a></div>
+    </div>
+  </header>
+
+  <div class="tab-row">
+    <button class="tab-btn active" data-tab="policy">01 · Policy reasoning</button>
+    <button class="tab-btn" data-tab="edge">02 · Edge cases</button>
+    <button class="tab-btn" data-tab="escalation">03 · Escalation rationale</button>
+  </div>
+
+  <!-- ═══ TAB 1 — POLICY REASONING ═══ -->
+  <div id="tab-policy" class="tab-panel active">
+    <p class="section-intro">Structured policy analysis on non-obvious decisions — showing how competing principles are weighted, where carve-outs apply, and how downstream effects inform the verdict. Resolved cases are recommended as golden set benchmarks for calibrating labelling teams and policy classifiers.</p>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-policy">Monetisation policy</span>
+        <span class="badge b-ok">Eligible with restrictions</span>
+      </div>
+      <p class="case-title">Harm reduction charity seeking YPP monetisation</p>
+      <div class="scenario"><strong>Scenario:</strong> A registered Irish charity uploads videos demonstrating safe drug use practices (naloxone administration, needle hygiene) to reduce overdose deaths. Content is medically accurate and produced with HSE partnership. Channel has no prior violations.</div>
+      <p class="s-label">Competing considerations</p>
+      <div class="tension-row">
+        <div class="tension-side t-restrict"><div class="t-head">Restricting factor</div>Content depicts drug paraphernalia and use, falling under "Harmful or dangerous acts" in advertiser-friendly content guidelines.</div>
+        <div class="tension-side t-permit"><div class="t-head">Permitting factor</div>Educational purpose, authoritative source (HSE-partnered), explicit public health framing — aligns with medical content carve-out.</div>
+      </div>
+      <p class="s-label">Policy reasoning</p>
+      <div class="reason">The harm reduction carve-out recognises that content reducing drug-related harm is categorically distinct from content glorifying or instructing drug use for recreational purposes. Intent and measurable effect are both determinative here.</div>
+      <div class="reason">Advertiser sensitivity is managed contextually: public health, medical, and pharma categories are lower-risk adjacent to this content. FMCG and luxury brands would be excluded via brand safety targeting regardless of YPP eligibility.</div>
+      <div class="reason">Blanket ineligibility creates perverse incentives — forcing public health content off the platform or onto unmonetisable accounts, reducing quality and sustainability of life-saving information. Policy outcomes must be assessed beyond the immediate decision.</div>
+      <div class="verdict">
+        <span class="verdict-label">Verdict</span>
+        <span class="verdict-text">Eligible with limited ads (brand safety tier 3). Ineligible for Premium revenue share. Recommend placement in Medical &amp; Health category with manual review checkpoint at 90 days.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Establishes a replicable decision framework for public health content eligible under medical carve-outs. Recommended for golden set inclusion as a positive calibration anchor for the "Harm Reduction" sub-category — reducing false-positive removal rates on similar channels across the region.</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-policy">Hate speech policy</span>
+        <span class="badge b-ok">No action required</span>
+      </div>
+      <p class="case-title">Historical slur use in anti-discrimination documentary series</p>
+      <div class="scenario"><strong>Scenario:</strong> A 12-part documentary on the history of anti-Irish racism in Britain (1800–1960) uses period-accurate language including slurs found in historical records, political cartoons, and newspaper archives. Creator is a university historian. Multiple user reports cite hate speech.</div>
+      <p class="s-label">Competing considerations</p>
+      <div class="tension-row">
+        <div class="tension-side t-restrict"><div class="t-head">Restricting factor</div>Reported language meets the surface-level definition of ethnic slurs targeting a protected group under hate speech policy.</div>
+        <div class="tension-side t-permit"><div class="t-head">Permitting factor</div>Counterspeech, educational, and documentary exceptions explicitly cover historical quotation of hate language when the purpose is condemnation or archival record.</div>
+      </div>
+      <p class="s-label">Policy reasoning</p>
+      <div class="reason">Policy distinguishes between content that promotes hatred and content that documents or analyses it. Context signals here are unambiguous: academic framing, archival sourcing, critical editorial voice throughout.</div>
+      <div class="reason">User reports are a weak signal in isolation. High report volume on educational content covering sensitive history is a known false-positive pattern — intent and context outweigh report count in this category.</div>
+      <div class="reason">Removal would set a chilling precedent: historical content covering racism, genocide, or discrimination could be suppressed by coordinated mass-reporting, which is itself a platform manipulation vector.</div>
+      <div class="verdict">
+        <span class="verdict-label">Verdict</span>
+        <span class="verdict-text">No action. Age-restrict episodes with dense archival material. Add content advisory card. Close reports as "does not violate policy." Flag reporter pattern for spam and manipulation review.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Documents the "coordinated false-reporting" failure mode for hate speech classifiers. Recommended for golden set inclusion as a negative calibration example — training reviewers and models to weight contextual framing over surface-level keyword matching.</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-policy">CIB / platform manipulation</span>
+        <span class="badge b-ok">No violation found</span>
+      </div>
+      <p class="case-title">Coordinated posting by NGO coalition — climate advocacy campaign</p>
+      <div class="scenario"><strong>Scenario:</strong> Fifteen environmental NGOs launch a simultaneous upload campaign on the same date, posting near-identical video scripts about a pending EU deforestation regulation. Metadata shows coordination. All accounts are verified, openly affiliated, and include full disclosure in descriptions.</div>
+      <p class="s-label">Policy reasoning</p>
+      <div class="reason">Coordinated Inauthentic Behaviour policy targets deceptive coordination — accounts obscuring affiliation, manufacturing false consensus, or misrepresenting identity. None of those elements are present here.</div>
+      <div class="reason">Authentic coordination — organisations openly working together on shared advocacy — is explicitly outside CIB scope. The disclosure element is determinative: inauthentic behaviour requires concealment by definition.</div>
+      <div class="reason">Applying CIB to transparent collective action would disproportionately burden civil society, while leaving state-backed covert operations — which actively conceal coordination — unaffected.</div>
+      <div class="verdict">
+        <span class="verdict-label">Verdict</span>
+        <span class="verdict-text">No violation. Document as a CIB false-positive archetype for classifier training. Recommend policy FAQ update clarifying the distinction between authentic and inauthentic coordination — a gap the current guidelines do not address explicitly.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Identifies a gap in CIB guidelines. Recommendation escalated to policy team; FAQ amendment reduces ambiguity for cross-functional review teams and lowers miscalibration rates on similar civic coordination patterns.</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-ai">AI &amp; Integrity</span>
+        <span class="badge b-policy">Health misinformation</span>
+        <span class="badge b-esc">Remove · Strike</span>
+      </div>
+      <p class="case-title">AI-generated output cited as medical authority in off-label treatment tutorial</p>
+      <div class="scenario"><strong>Scenario:</strong> A high-reach creator uploads a detailed guide on using an unapproved pharmaceutical substance to treat a chronic autoimmune condition. The creator cites a response from a popular generative AI tool as "scientific evidence" for the treatment's efficacy, framing it as a "hidden cure" suppressed by traditional medicine. The video includes specific dosage instructions.</div>
+      <p class="s-label">Competing considerations</p>
+      <div class="tension-row">
+        <div class="tension-side t-restrict"><div class="t-head">Restricting factors</div>Specific dosage instructions for an unapproved use pose an imminent risk of physical injury or toxicity. Using LLM output to simulate medical consensus is technical manipulation that bypasses expert review.</div>
+        <div class="tension-side t-permit"><div class="t-head">Permitting factors</div>Creator claims the information is based on personal success, which often falls under "lived experience" carve-outs. No direct sale of the substance is linked, reducing the "Harmful Goods" violation weight.</div>
+      </div>
+      <p class="s-label">Policy reasoning</p>
+      <div class="reason">Harm vs. expression: personal health journeys are protected, but the transition from narrative to instructional content triggers the Medical Misinformation policy. The inclusion of specific dosage instructions moves this clearly into "Dangerous Acts" territory, regardless of framing.</div>
+      <div class="reason">The "AI authority" gap: current policy must adapt to the pattern of users treating generative AI outputs as peer-reviewed data. This requires a source-quality assessment rather than a keyword check — an LLM citation is not an authoritative source by any clinical standard, and fabricating consensus this way is an emerging enforcement category in its own right.</div>
+      <div class="reason">Risk of escalation via reach: high subscriber counts act as harm multipliers. The potential for mass adoption of a non-validated treatment necessitates proactive enforcement rather than a wait-and-monitor approach.</div>
+      <div class="verdict">
+        <span class="verdict-label">Verdict</span>
+        <span class="verdict-text">Remove content. Apply a Medical Misinformation strike. Policy rationale: content promotes a high-risk medical practice contradicting scientific consensus, with specific instructions that pose direct physical harm risk.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Identifies an emerging enforcement pattern — AI-generated outputs used to fabricate medical authority — requiring a dedicated sub-category in misinformation policy. Submitted to policy team for taxonomy update and classifier retraining.</span>
+      </div>
+      <div class="anchor-callout">Anchor case: Pseudo-Science Authority (AI-citation vector) — submitted for inclusion in AI model training golden sets and reviewer calibration datasets for the health misinformation classifier.</div>
+    </div>
+  </div>
+
+  <!-- ═══ TAB 2 — EDGE CASES ═══ -->
+  <div id="tab-edge" class="tab-panel">
+    <p class="section-intro">Cases where standard policy signals point in conflicting directions — requiring deeper contextual analysis, audience-centred harm assessment, and calibrated judgment on where carve-outs begin and end.</p>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-edge">Edge case</span>
+        <span class="badge b-neutral">Violent extremism</span>
+        <span class="badge b-ok">Removed</span>
+      </div>
+      <p class="case-title">Far-right satire account mirroring extremist talking points without irony</p>
+      <div class="scenario"><strong>Scenario:</strong> An account with 340K subscribers posts content claiming to satirise far-right ideology. Videos adopt the rhetorical style, framing, and conclusions of extremist content without any explicit disclaimer. Comment sections show the user base treating content as sincere rather than satirical.</div>
+      <p class="s-label">Distinguishing signals</p>
+      <div class="signal-grid">
+        <div class="signal"><span class="sig-icon sig-warn">▲</span>No irony markers, exaggeration, or internal critique present in the video content itself</div>
+        <div class="signal"><span class="sig-icon sig-warn">▲</span>Creator's other accounts show sincere engagement with far-right communities off-platform</div>
+        <div class="signal"><span class="sig-icon sig-warn">▲</span>Comment moderation actively removes posts that treat the content as satire</div>
+        <div class="signal"><span class="sig-icon sig-ok">◆</span>"Satire" label exists only in the About section — invisible to first-time or recommended viewers</div>
+      </div>
+      <p class="s-label">Edge case reasoning</p>
+      <div class="reason">The satire defence requires that a reasonable viewer could recognise satirical intent from the content itself. Where content is indistinguishable from sincere extremism, the carve-out does not apply — a stated disclaimer is not a magic shield.</div>
+      <div class="reason">Audience interpretation is a legitimate evidentiary input. Comment sections showing sincere ideological engagement indicate the content is functioning as genuine extremism regardless of creator-stated intent.</div>
+      <div class="verdict">
+        <span class="verdict-label">Verdict</span>
+        <span class="verdict-text">Remove under violent extremism policy. Channel strike issued. Escalate cross-platform behavioural signals to specialist team for CIB and network analysis.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Documents the "satire shield" failure mode for extremism classifiers. Procedural update recommended: audience signal analysis (comment intent scoring) to be added to enforcement workflow for ambiguous satirical claims. Submitted as anchor case for extremism edge case golden sets.</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-edge">Edge case</span>
+        <span class="badge b-neutral">Health misinformation</span>
+        <span class="badge b-ok">Restricted, not removed</span>
+      </div>
+      <p class="case-title">Credentialed physician posting content contradicting current WHO guidance</p>
+      <div class="scenario"><strong>Scenario:</strong> A licensed consultant cardiologist publishes a series of videos arguing that a widely used medication class has underreported cardiovascular side effects, citing peer-reviewed studies. Content contradicts current NHS/WHO treatment guidelines. No product promotion or financial disclosure issues identified.</div>
+      <p class="s-label">Edge case reasoning</p>
+      <div class="reason">Misinformation policy is calibrated against authoritative source consensus, not scientific certainty. There is a meaningful distinction between a claim that vaccines cause autism (refuted, no credible evidence base) and a specialist disputing a treatment guideline with published evidence — the latter is how medical knowledge advances.</div>
+      <div class="reason">Removal of credentialed dissent citing legitimate peer-reviewed evidence risks platform capture by consensus-enforcement rather than truth-seeking. The harm threshold here does not warrant removal.</div>
+      <div class="reason">Appropriate mitigation is reduced amplification combined with contextual information panels — allowing users to contextualise the claim without suppressing legitimate medical debate and preserving epistemic diversity.</div>
+      <div class="verdict">
+        <span class="verdict-label">Verdict</span>
+        <span class="verdict-text">No removal. Apply borderline classification (reduced recommendation). Add information panel linking to current NHS/WHO treatment guidelines. Flag for review if clinical consensus shifts or a retraction occurs.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Defines the boundary between legitimate expert dissent and actionable misinformation — a calibration anchor for the "credentialed source" sub-category. Informs policy team on the need for a source-quality tier distinguishing peer-reviewed citations from AI-generated or anecdotal claims.</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-edge">Edge case</span>
+        <span class="badge b-neutral">Self-harm adjacent</span>
+        <span class="badge b-ok">Retained with guardrails</span>
+      </div>
+      <p class="case-title">Eating disorder recovery documentation with before/after imagery</p>
+      <div class="scenario"><strong>Scenario:</strong> A creator with 180K subscribers documents their anorexia recovery journey across two years of videos. Content includes before/after weight imagery, calorie log discussions, and frank descriptions of restricting behaviours — framed throughout as a cautionary recovery narrative. Channel has a significant following among young women aged 16–24.</div>
+      <p class="s-label">Edge case reasoning</p>
+      <div class="reason">Creator intent is pro-recovery and documentable across the channel's history. However, harm assessment in this category must be audience-centred, not intent-centred: for viewers with active eating disorders, exposure to weight loss imagery and calorie figures can function as triggering content regardless of framing.</div>
+      <div class="reason">The 16–24 demographic concentration is a material risk factor. Self-harm and eating disorder policies apply heightened scrutiny to content reaching high concentrations of vulnerable users, independent of the creator's wellbeing.</div>
+      <div class="reason">Outright removal would eliminate genuine peer support content and likely push creators to less moderated platforms. A hierarchical guardrail approach preserves value while managing the highest-risk elements systematically.</div>
+      <div class="verdict">
+        <span class="verdict-label">Verdict</span>
+        <span class="verdict-text">Retain with hierarchical modifications: (1) age-gate to 18+, (2) restrict from recommendation surfaces, (3) disable embedding. Require removal of standalone calorie-log videos lacking recovery framing. Offer Support &amp; Education label and connect creator with NGO partner for content consultation.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Multi-tier enforcement verdict (age-gate / demotion / embedding restriction) submitted as a structured labelling template for the self-harm adjacent category. Enables AI annotation teams to learn proportionate, context-sensitive action hierarchies rather than binary remove/keep decisions.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ TAB 3 — ESCALATION ═══ -->
+  <div id="tab-escalation" class="tab-panel">
+    <p class="section-intro">Escalation is not a failure of first-line review — it is the correct action when the stakes, complexity, or authority required exceeds T1 scope. These cases illustrate the when, why, and correct sequencing of escalation decisions in a target-driven, SLA-bound environment.</p>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-esc">Escalation</span>
+        <span class="badge b-up">Elections integrity</span>
+      </div>
+      <p class="case-title">Suspected state-sponsored influence operation — low-confidence signals</p>
+      <div class="scenario"><strong>Scenario:</strong> A cluster of 40 accounts created within a 6-week window are producing pro-government content about an ongoing European election. Posting cadence is consistent with automation (3am–5am local time peaks). Accounts share IP infrastructure but show natural language variation. No confirmed attribution.</div>
+      <p class="s-label">Urgency assessment</p>
+      <div class="priority-row">
+        <span class="priority-label">Priority</span>
+        <div class="pbar"><div class="pfill p-mid"></div></div>
+        <span class="priority-label">Medium — 4hr SLA</span>
+      </div>
+      <p class="s-label">Escalation rationale</p>
+      <div class="reason">Low-confidence attribution does not mean low-consequence action. If this is a coordinated state-sponsored operation, the cost of inaction — an election integrity breach — significantly outweighs the cost of erroneous escalation (specialist team review time).</div>
+      <div class="reason">State-sponsored IO cases require cross-platform signal correlation, government liaison protocols, and legal holds — actions outside T1 reviewer authority. Specialist involvement is required regardless of confidence level.</div>
+      <div class="reason">Partial actioning risks alerting the network and destroying behavioural evidence needed for proper investigation. Preserve-and-refer is the correct sequence, not piecemeal removal.</div>
+      <div class="verdict">
+        <span class="verdict-label">Action taken</span>
+        <span class="verdict-text">No removals pending specialist review. Evidence package compiled (account list, IP data, posting cadence analysis). Escalated to Elections Integrity team within 4hr SLA. Case preserved in full for potential legal hold.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Establishes "preserve-and-refer" as the default protocol for low-confidence IO cases during election periods. Behavioural data retained for cross-functional analysis; findings inform classifier improvements for automated IO signal detection.</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-esc">Escalation</span>
+        <span class="badge b-up">Child safety specialist</span>
+      </div>
+      <p class="case-title">Travel vlogger filming identifiable minors in vulnerable communities</p>
+      <div class="scenario"><strong>Scenario:</strong> A humanitarian travel vlogger (2.1M subscribers, verified) is filming in refugee settlements in Lebanon. Videos include extended footage of named children in distress, sometimes without apparent guardian presence. Filming consent is unclear. No sexualisation. Multiple child welfare reports received.</div>
+      <p class="s-label">Urgency assessment</p>
+      <div class="priority-row">
+        <span class="priority-label">Priority</span>
+        <div class="pbar"><div class="pfill p-high"></div></div>
+        <span class="priority-label">High — 1hr SLA</span>
+      </div>
+      <p class="s-label">Escalation rationale</p>
+      <div class="reason">Content does not meet the CSAM threshold. However, child safety policy covers a broader category: content that could facilitate exploitation or place identifiable minors at risk — even absent sexualisation. Named, identifiable children in refugee settlements represent a specific protection risk (trafficking, targeted fraud).</div>
+      <div class="reason">The harm pathway is real but indirect, requiring specialist assessment rather than T1 judgment. The question is not whether this is CSAM — it is whether this content creates a discernible child protection risk warranting action.</div>
+      <div class="reason">High subscriber count increases exposure velocity. Escalation urgency is elevated proportionally by reach — the same content from a 500-subscriber account would still be escalated but at lower priority.</div>
+      <div class="verdict">
+        <span class="verdict-label">Action taken</span>
+        <span class="verdict-text">Temporary demonetisation and recommendation restriction while specialist review is active. Escalated to Child Safety specialist team within 1hr SLA. Flagged for potential creator outreach with policy guidance on filming vulnerable subjects.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Defines the non-CSAM child safety escalation pathway for high-reach humanitarian content — a gap in existing escalation trees. Recommendation submitted to policy team: reach-weighted urgency tiers to be added to child safety escalation SLA guidelines.</span>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-meta">
+        <span class="badge b-esc">Escalation</span>
+        <span class="badge b-up">Crisis pathway</span>
+      </div>
+      <p class="case-title">High-reach creator — ambiguous content following public psychiatric crisis</p>
+      <div class="scenario"><strong>Scenario:</strong> A creator with 2.4M subscribers, who publicly disclosed a recent psychiatric hospitalisation, uploads a 22-minute video titled only "goodbye." Content is reflective, discusses feeling "finished," and references giving away possessions. No explicit suicide reference. Published at 2:47am local time.</div>
+      <p class="s-label">Urgency assessment</p>
+      <div class="priority-row">
+        <span class="priority-label">Priority</span>
+        <div class="pbar"><div class="pfill p-crit"></div></div>
+        <span class="priority-label">Critical — immediate</span>
+      </div>
+      <p class="s-label">Escalation rationale</p>
+      <div class="reason">The absence of an explicit suicide reference does not reduce risk — it increases interpretive obligation. Ambiguous signals in a high-risk context (recent hospitalisation, middle-of-night post, farewell framing, behavioural change) require the most conservative interpretation. Cost asymmetry is absolute: if this is a crisis, delay costs a life.</div>
+      <div class="reason">Reach is a direct harm multiplier. A video reaching 2.4M subscribers in crisis framing can trigger contagion effects within hours — independently of whether the creator is personally in danger. Both risks must be managed simultaneously, not sequentially.</div>
+      <div class="reason">This case requires two concurrent workstreams with separate owners: creator welfare (crisis outreach, law enforcement referral if unresponsive) and platform harm (recommendation restriction to interrupt contagion).</div>
+      <div class="verdict">
+        <span class="verdict-label">Action taken</span>
+        <span class="verdict-text">Immediate: restrict video from all recommendation and search surfaces. Activate creator wellness protocol — attempt platform outreach. Parallel notification to T&S on-call lead and Legal. If no creator response within 30 minutes, initiate emergency services protocol.</span>
+      </div>
+      <div class="impact">
+        <span class="impact-label">Impact</span>
+        <span class="impact-text">Formalises the dual-workstream model (creator welfare + contagion interruption) as a documented protocol for ambiguous crisis cases. Submitted to cross-functional team for integration into the crisis escalation playbook; triggers a review of ambiguous title and framing as automated signals for welfare flagging.</span>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div>
+      <p class="footer-name">Stefania Carta</p>
+      <p class="footer-sub">Trust &amp; Safety · UX Research · AI Ethics · Dublin</p>
+    </div>
+    <div class="footer-links">
+      <a href="https://stefaniacarta.com">Portfolio</a>
+      <a href="https://linkedin.com/in/stefaniacarta">LinkedIn</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const btns = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.tab-panel');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
